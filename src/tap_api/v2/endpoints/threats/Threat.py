@@ -5,7 +5,7 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from tap_api.v2.endpoints.threats.Summary import Summary
+from tap_api.v2.endpoints.threats.summary import Summary
 from tap_api.web import Resource, Resources
 
 

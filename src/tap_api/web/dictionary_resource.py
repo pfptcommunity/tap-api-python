@@ -9,8 +9,8 @@ from __future__ import annotations
 
 from typing import TypeVar, Type, Generic
 
-from .Dictionary import Dictionary
-from .Resource import Resource
+from .dictionary import Dictionary
+from .resource import Resource
 
 T = TypeVar('T', bound=Dictionary)
 

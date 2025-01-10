@@ -7,8 +7,8 @@ License: MIT
 """
 from typing import TypeVar, Type, Generic
 
-from .Collection import Collection
-from .Resource import Resource
+from .collection import Collection
+from .resource import Resource
 
 T = TypeVar('T', bound=Collection)
 

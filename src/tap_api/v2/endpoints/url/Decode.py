@@ -9,9 +9,9 @@ from typing import List, Callable
 
 from requests import Response
 
-from tap_api.v2.endpoints.url.UrlInfo import UrlInfo
-from tap_api.web.DictionaryCollection import DictionaryCollection
-from tap_api.web.Resource import Resource
+from tap_api.v2.endpoints.url.url_info import UrlInfo
+from tap_api.web.dictionary_collection import DictionaryCollection
+from tap_api.web.resource import Resource
 
 
 class Decode(Resource):

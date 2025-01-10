@@ -8,8 +8,8 @@ License: MIT
 from requests.adapters import HTTPAdapter
 
 from tap_api.v2.endpoints import *
-from tap_api.web import Resource
-from tap_api.web.ErrorHandler import ErrorHandler
+from tap_api.web.resource import Resource
+from tap_api.web.error_handler import ErrorHandler
 
 
 class TimeoutHTTPAdapter(HTTPAdapter):

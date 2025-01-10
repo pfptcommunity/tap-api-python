@@ -5,6 +5,6 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from .Client import Client
+from .client import Client
 
 __all__ = ['Client']

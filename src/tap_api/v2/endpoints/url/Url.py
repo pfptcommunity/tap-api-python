@@ -5,7 +5,7 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from tap_api.v2.endpoints.url.Decode import Decode
+from tap_api.v2.endpoints.url.decode import Decode
 from tap_api.web import Resource
 
 

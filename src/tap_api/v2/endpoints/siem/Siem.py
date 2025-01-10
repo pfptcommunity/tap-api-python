@@ -5,7 +5,7 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from tap_api.web.Resource import Resource
+from tap_api.web.resource import Resource
 
 
 class Siem(Resource):

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import TypeVar, Type, Generic
 
-from .Resource import Resource
+from .resource import Resource
 
 TResource = TypeVar('TResource', bound='Resource')
 
