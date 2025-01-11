@@ -9,5 +9,4 @@ from .resource import Resource
 from .resources import Resources
 
 __all__ = ['CollectionResource', 'DictionaryResource', 'DictionaryCollection', 'Resource', 'Resources', 'Collection',
-           'Dictionary',
-           'FilterOptions', 'TFilterOptions']
+           'Dictionary', 'FilterOptions', 'TFilterOptions']
