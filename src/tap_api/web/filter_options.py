@@ -9,8 +9,6 @@ from datetime import datetime
 from enum import Enum
 from typing import TypeVar, Dict
 
-TFilterOptions = TypeVar('TFilterOptions', bound='FilterOptions')
-
 
 class FilterOptions:
     _options: dict[str]
@@ -55,3 +53,5 @@ class FilterOptions:
             else:
                 param[k] = v
         return param
+
+TFilterOptions = TypeVar('TFilterOptions', bound=FilterOptions)
