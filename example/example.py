@@ -1,6 +1,8 @@
 import json
 
+from tap_api.common.people.filters import TimeWindow
 from tap_api.v2 import Client
+from tap_api.v2.filters.vap_options import VapOptions
 
 if __name__ == '__main__':
     api_key_file = open("../tap.api_key", "r")
@@ -46,6 +48,19 @@ if __name__ == '__main__':
     print(json.dumps(threat_summary, indent=4))
 
     print(client.people.uri)
+    print(client.people.vap.uri)
+    vap_options = VapOptions()
+    vap_options.set_window(TimeWindow.DAYS_90)
+    vap_info = client.people.vap(vap_options)
+
+    print("HTTP Status:", vap_info.get_status())
+    print("HTTP Reason:", vap_info.get_reason())
+    print("Users:", vap_info.users)
+    print("Total Vaps:", vap_info.total_vap_users)
+    print("Interval:", vap_info.interval)
+    print("Cluster Name:", vap_info.average_attack_index)
+    print("Recipient Email:", vap_info.average_attack_index)
+    print("VAP Info", json.dumps(vap_info, indent=4))
 
     # Dump URI build
     print(client.url.uri)

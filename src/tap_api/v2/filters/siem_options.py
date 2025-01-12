@@ -1,5 +1,5 @@
-from tap_api.common.siem.Filters import SiemFormat, SiemThreatType, SiemThreatStatus
-from tap_api.web.FilterOptions import FilterOptions, TFilterOptions
+from tap_api.common.siem.filters import SiemFormat, SiemThreatType, SiemThreatStatus
+from tap_api.web.filter_options import FilterOptions, TFilterOptions
 
 
 class SiemOptions(FilterOptions):

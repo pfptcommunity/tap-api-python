@@ -7,12 +7,10 @@ License: MIT
 """
 from __future__ import annotations
 
-from typing import TypeVar, Type, Generic
+from typing import TypeVar, Type, Generic, Union
 
-from .dictionary import Dictionary
+from .dictionary import Dictionary, TDictionary
 from .resource import Resource
-
-TDictionary = TypeVar('TDictionary', bound=Dictionary)
 
 
 class DictionaryResource(Generic[TDictionary], Resource):
@@ -23,7 +21,7 @@ class DictionaryResource(Generic[TDictionary], Resource):
         _dict_type (Type[TDictionary]): The type of dictionary to use for resource data.
     """
 
-    def __init__(self, parent: Resource, uri: str, dict_type: Type[TDictionary] = Dictionary):
+    def __init__(self, parent: Union[Resource, None], uri: str, dict_type: Type[TDictionary] = Dictionary):
         """
         Initializes a new DictionaryResource.
 

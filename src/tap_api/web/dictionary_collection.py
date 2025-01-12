@@ -9,7 +9,7 @@ from typing import TypeVar, Type, List, Callable, Dict
 
 from requests import Response
 
-D = TypeVar('D', bound='Dict')
+D = TypeVar('D', bound=Dict)
 
 
 class DictionaryCollection(List[D]):

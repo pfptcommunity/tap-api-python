@@ -81,3 +81,6 @@ class Collection(List[T]):
             dict: The HTTP headers.
         """
         return self.__response.headers
+
+
+TCollection = TypeVar('TCollection', bound=Collection)

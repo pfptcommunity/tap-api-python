@@ -8,7 +8,7 @@ License: MIT
 from __future__ import annotations
 
 from posixpath import join
-from typing import Union
+from typing import Union, TypeVar
 from requests import Session
 
 
@@ -61,3 +61,5 @@ class Resource:
     def session(self) -> Session:
         """Gets the HTTP session associated with this resource."""
         return self.__session
+
+TResource = TypeVar('TResource', bound=Resource)

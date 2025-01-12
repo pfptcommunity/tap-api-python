@@ -6,7 +6,7 @@ Package: et_api
 License: MIT
 """
 from __future__ import annotations
-from typing import Dict
+from typing import Dict, TypeVar
 from requests import Response
 from requests.structures import CaseInsensitiveDict
 
@@ -78,3 +78,6 @@ class Dictionary(Dict):
             dict: The HTTP headers.
         """
         return self.__response.headers
+
+
+TDictionary = TypeVar('TDictionary', bound=Dictionary)

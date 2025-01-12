@@ -7,17 +7,15 @@ License: MIT
 """
 from __future__ import annotations
 
-from typing import TypeVar, Type, Generic
+from typing import Type, Generic, Union
 
-from .resource import Resource
-
-TResource = TypeVar('TResource', bound='Resource')
+from .resource import Resource, TResource
 
 
 class Resources(Generic[TResource], Resource):
     __res: Type[TResource]
 
-    def __init__(self, parent, uri: str, res: Type[TResource]):
+    def __init__(self, parent: Union[Resource, None], uri: str, res: Type[TResource]):
         super().__init__(parent, uri)
         self.__res = res
 

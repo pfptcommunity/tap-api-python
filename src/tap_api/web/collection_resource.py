@@ -8,11 +8,8 @@ License: MIT
 from __future__ import annotations
 
 from typing import TypeVar, Type, Generic
-from .collection import Collection
+from .collection import Collection, TCollection
 from .resource import Resource
-
-TCollection = TypeVar('TCollection', bound=Collection)
-
 
 class CollectionResource(Generic[TCollection], Resource):
     """
