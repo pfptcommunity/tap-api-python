@@ -12,42 +12,92 @@ if __name__ == '__main__':
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
     print(client.siem.uri)
     print(client.forensics.uri)
-    # threat_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")
-    # for d in threat_data.reports:
-    #     for f in d.forensics:
-    #         print(json.dumps(f.what, indent=4))
+    #aggregate_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")
+    aggregate_data = client.forensics.campaign("4a3df8c3-0055-4bc4-a150-73e81436871d")
+    print("HTTP Status:", aggregate_data.get_status())
+    print("HTTP Reason:", aggregate_data.get_reason())
+    for report in aggregate_data.reports:
+        print("\nReport:")
+        print(f"  Scope: {report.scope}")
+        print(f"  ID: {report.id}")
+        print(f"  Name: {report.name}")
+        print(f"  Threat Status: {report.threat_status}")
+
+        for forensic in report.forensics:
+            print("\n  Forensic:")
+            print(f"    Type: {forensic.type}")
+            print(f"    Display: {forensic.display}")
+            print(f"    Engine: {forensic.engine}")
+            print(f"    Malicious: {forensic.malicious}")
+            print(f"    Time: {forensic.time}")
+            print(f"    Note: {forensic.note or 'N/A'}")
+
+            # Dump the `what` object. Note helper properties exist, but you must know the object type or type.
+            print("    What {}:".format(type(forensic.what).__name__))
+            print(json.dumps(forensic.what, indent=4))
+
+            # Dump platforms if available
+            if forensic.platforms:
+                print("    Platforms:")
+                for platform in forensic.platforms:
+                    print(f"      Name: {platform.name}")
+                    print(f"      OS: {platform.os}")
+                    print(f"      Version: {platform.version}")
+
 
     print(client.campaign.uri)
     #
     # # Dump URI build
     # print(client.threat.uri)
     # print(client.threat.summary.uri)
-    # print(client.threat.summary["982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa"].uri)
+    # print(client.threat.summary["f350d6ad78e52acde166d43e6b97baaf7944f966b4fd6cc4af96ae5b7a8c121c"].uri)
     #
-    # # Returns a threat summary dictionary
-    # threat_summary = client.threat.summary["982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa"]()
+    # Returns a threat summary dictionary
+    # threat_summary = client.threat.summary["f350d6ad78e52acde166d43e6b97baaf7944f966b4fd6cc4af96ae5b7a8c121c"]()
     #
     # # Dictionary object also has data associated with the HTTP response.
     # print("HTTP Status:", threat_summary.get_status())
     # print("HTTP Reason:", threat_summary.get_reason())
     #
-    # # Helpers are provided to quicly access the data with auto-completion.
-    # print("Threat ID:", threat_summary.id)
-    # print("Identified At:", threat_summary.identified_at)
-    # print("Threat Name:", threat_summary.name)
-    # print("Threat Type:", threat_summary.type)
-    # print("Threat Category:", threat_summary.category)
-    # print("Threat Status:", threat_summary.status)
-    # print("Detection Type:", threat_summary.detection_type)
-    # print("Severity Level:", threat_summary.severity)
-    # print("Notable:", threat_summary.notable)
-    # print("Verticals Affected:", threat_summary.verticals)
-    # print("Geographies Impacted:", threat_summary.geographies)
-    # print("Actors Involved:", threat_summary.actors)
-    # print("Families Associated:", threat_summary.families)
-    # print("Malware Identified:", threat_summary.malware)
-    # print("Techniques Used:", threat_summary.techniques)
-    # print("Brands Affected:", threat_summary.brands)
+    # print("\nThreat Info:")
+    # print(f"  ID: {threat_summary.id}")
+    # print(f"  Identified At: {threat_summary.identified_at}")
+    # print(f"  Name: {threat_summary.name}")
+    # print(f"  Type: {threat_summary.type}")
+    # print(f"  Category: {threat_summary.category}")
+    # print(f"  Status: {threat_summary.status}")
+    # print(f"  Detection Type: {threat_summary.detection_type}")
+    # print(f"  Severity: {threat_summary.severity}")
+    # print(f"  Attack Spread: {threat_summary.attack_spread}")
+    # print(f"  Notable: {threat_summary.notable}")
+    # print(f"  Verticals: {threat_summary.verticals}")
+    # print(f"  Geographies: {threat_summary.geographies}")
+    #
+    # print("\n  Actors:")
+    # for actor in threat_summary.actors:
+    #     print(f"    ID: {actor.id}")
+    #     print(f"    Name: {actor.name}")
+    #
+    # print("\n  Families:")
+    # for family in threat_summary.families:
+    #     print(f"    ID: {family.id}")
+    #     print(f"    Name: {family.name}")
+    #
+    # print("\n  Malware:")
+    # for malware in threat_summary.malware:
+    #     print(f"    ID: {malware.id}")
+    #     print(f"    Name: {malware.name}")
+    #
+    # print("\n  Techniques:")
+    # for technique in threat_summary.techniques:
+    #     print(f"    ID: {technique.id}")
+    #     print(f"    Name: {technique.name}")
+    #
+    # print("\n  Brands:")
+    # for brand in threat_summary.brands:
+    #     print(f"    ID: {brand.id}")
+    #     print(f"    Name: {brand.name}")
+
     #
     # # Test ThreatInfo object dump
     # print(json.dumps(threat_summary, indent=4))
@@ -55,32 +105,32 @@ if __name__ == '__main__':
     # print(client.people.uri)
     # print(client.people.vap.uri)
     #
-    vap_info = client.people.vap()
-
-    print("HTTP Status:", vap_info.get_status())
-    print("HTTP Reason:", vap_info.get_reason())
-    print("Total VAPs:", vap_info.total_vap_users)
-    print("Interval:", vap_info.interval)
-    print("Average Attack Index:", vap_info.average_attack_index)
-    print("VAP Attack Threshold:", vap_info.vap_attack_index_threshold)
-
-    for user in vap_info.users:
-        identity = user.identity
-        threat_statistics = user.threat_statistics
-
-        print("\nUser Details:")
-        print("  Email(s):", identity.emails)
-        print("  Name:", identity.name or "N/A")
-        print("  Department:", identity.department or "N/A")
-        print("  Location:", identity.location or "N/A")
-        print("  Title:", identity.title or "N/A")
-        print("  VIP:", identity.vip)
-
-        print("Threat Statistics:")
-        print("  Attack Index:", threat_statistics.attack_index)
-        print("  Threat Families:")
-        for family in threat_statistics.families:
-            print(f"    - {family.name}: {family.score}")
+    # vap_info = client.people.vap()
+    #
+    # print("HTTP Status:", vap_info.get_status())
+    # print("HTTP Reason:", vap_info.get_reason())
+    # print("Total VAPs:", vap_info.total_vap_users)
+    # print("Interval:", vap_info.interval)
+    # print("Average Attack Index:", vap_info.average_attack_index)
+    # print("VAP Attack Threshold:", vap_info.vap_attack_index_threshold)
+    #
+    # for user in vap_info.users:
+    #     identity = user.identity
+    #     threat_statistics = user.threat_statistics
+    #
+    #     print("\nUser Details:")
+    #     print("  Email(s):", identity.emails)
+    #     print("  Name:", identity.name or "N/A")
+    #     print("  Department:", identity.department or "N/A")
+    #     print("  Location:", identity.location or "N/A")
+    #     print("  Title:", identity.title or "N/A")
+    #     print("  VIP:", identity.vip)
+    #
+    #     print("Threat Statistics:")
+    #     print("  Attack Index:", threat_statistics.attack_index)
+    #     print("  Threat Families:")
+    #     for family in threat_statistics.families:
+    #         print(f"    - {family.name}: {family.score}")
 
 
 
@@ -100,11 +150,11 @@ if __name__ == '__main__':
     # print("HTTP Reason:", decoded_urls.get_reason())
     # print("Response Data:", json.dumps(decoded_urls, indent=4))
     # for url_info in decoded_urls.urls():
-    #     print("Encoded URL:", url_info.encoded_url)
-    #     print("Decoded URL:", url_info.decoded_url)
-    #     print("Message GUID:", url_info.message_guid)
-    #     print("Cluster Name:", url_info.cluster_name)
-    #     print("Recipient Email:", url_info.recipient_email)
-    #     print("Success:", url_info.success)
-    #     print("Error:", url_info.error)
-    #     print("URL Info", json.dumps(url_info, indent=4))
+    #     print("\nDecoded URL Info:")
+    #     print(f"  Encoded URL: {url_info.encoded_url}")
+    #     print(f"  Decoded URL: {url_info.decoded_url}")
+    #     print(f"  Message GUID: {url_info.message_guid}")
+    #     print(f"  Cluster Name: {url_info.cluster_name}")
+    #     print(f"  Recipient Email: {url_info.recipient_email}")
+    #     print(f"  Success: {url_info.success}")
+    #     print(f"  Error: {url_info.error or 'N/A'}")
