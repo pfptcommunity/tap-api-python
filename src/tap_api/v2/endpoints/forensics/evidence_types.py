@@ -1,21 +1,17 @@
 from __future__ import annotations
 
-from typing import Dict, Type, Optional, List
+from typing import Dict, Type, List
 
 
 class EvidenceType(Dict):
     """
     Base class for the 'what' field in Forensics API.
     """
+
     def __init__(self, data):
         super().__init__(data)
         print(self.__class__.__name__)
 
-
-class RuleEvidenceType(EvidenceType):
-    @property
-    def rule(self) -> str:
-        return self.get("rule", "")
 
 class AttachmentEvidenceType(EvidenceType):
     @property
@@ -42,6 +38,7 @@ class AttachmentEvidenceType(EvidenceType):
     def size(self) -> int:
         return self.get("size", 0)
 
+
 class BehaviorEvidenceType(EvidenceType):
     @property
     def rule(self) -> str:
@@ -55,10 +52,12 @@ class BehaviorEvidenceType(EvidenceType):
     def malicious(self) -> bool:
         return self.get("malicious", False)
 
+
 class CookieEvidenceType(EvidenceType):
     @property
     def action(self) -> str:
         return self.get("action", "")
+
     @property
     def domain(self) -> str:
         return self.get("domain", "")
@@ -70,6 +69,7 @@ class CookieEvidenceType(EvidenceType):
     @property
     def value(self) -> str:
         return self.get("value", "")
+
 
 class DNSEvidenceType(EvidenceType):
     @property
@@ -106,6 +106,7 @@ class DropperEvidenceType(EvidenceType):
     def url(self) -> str:
         return self.get("url", "")
 
+
 class FileEvidenceType(EvidenceType):
     @property
     def sha256(self) -> str:
@@ -118,6 +119,7 @@ class FileEvidenceType(EvidenceType):
     @property
     def path(self) -> str:
         return self.get("path", "")
+
 
 class IDSEvidenceType(EvidenceType):
     @property
@@ -142,6 +144,7 @@ class MutexEvidenceType(EvidenceType):
     def path(self) -> str:
         return self.get("path", "")
 
+
 class NetworkEvidenceType(EvidenceType):
     @property
     def action(self) -> str:
@@ -159,6 +162,7 @@ class NetworkEvidenceType(EvidenceType):
     def protocol_type(self) -> str:
         return self.get("type", "")
 
+
 class ProcessEvidenceType(EvidenceType):
     @property
     def path(self) -> str:
@@ -167,6 +171,7 @@ class ProcessEvidenceType(EvidenceType):
     @property
     def action(self) -> str:
         return self.get("action", "")
+
 
 class RegistryEvidenceType(EvidenceType):
     @property
@@ -188,6 +193,12 @@ class RegistryEvidenceType(EvidenceType):
     @property
     def value(self) -> str:
         return self.get("value", "")
+
+
+class RuleEvidenceType(EvidenceType):
+    @property
+    def rule(self) -> str:
+        return self.get("rule", "")
 
 
 class ScreenshotEvidenceType(EvidenceType):
@@ -238,6 +249,7 @@ def create_evidence_type(data: Dict, evidence_type: str) -> EvidenceType:
     subclass = _EVIDENCE_TYPE_REGISTRY.get(evidence_type, EvidenceType)
     return subclass(data)
 
+
 # Registry for WhatInfo subclasses
 _EVIDENCE_TYPE_REGISTRY: Dict[str, Type[EvidenceType]] = {
     "attachment": AttachmentEvidenceType,
@@ -245,13 +257,13 @@ _EVIDENCE_TYPE_REGISTRY: Dict[str, Type[EvidenceType]] = {
     "cookie": CookieEvidenceType,
     "dns": DNSEvidenceType,
     "dropper": DropperEvidenceType,
-    "rule": RuleEvidenceType,
     "file": FileEvidenceType,
     "ids": IDSEvidenceType,
     "mutex": MutexEvidenceType,
     "network": NetworkEvidenceType,
     "process": ProcessEvidenceType,
     "registry": RegistryEvidenceType,
+    "rule": RuleEvidenceType,
     "screenshot": ScreenshotEvidenceType,
     "url": URLEvidenceType,
 }
