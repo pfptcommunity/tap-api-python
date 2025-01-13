@@ -1,17 +1,20 @@
+import logging
 from typing import Optional
+
 from tap_api.common.people.filters import TimeWindow
 from tap_api.v2.endpoints.people.vapdata import VapData
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 class Vap(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, window: TimeWindow = TimeWindow.DAYS_30, page: Optional[int] = None, size: Optional[int] = None) -> VapData:
+    def __call__(self, window: TimeWindow = TimeWindow.DAYS_30, page: Optional[int] = None,
+                 size: Optional[int] = None) -> VapData:
         if not isinstance(window, TimeWindow):
             raise TypeError("`window` must be an instance of TimeWindow.")
         if page is not None and page < 1:

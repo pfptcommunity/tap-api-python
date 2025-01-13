@@ -12,6 +12,7 @@ from requests import Response
 from tap_api.v2.endpoints.people.user import User
 from tap_api.web import Dictionary
 
+
 class VapData(Dictionary):
     def __init__(self, response: Response):
         super().__init__(response)

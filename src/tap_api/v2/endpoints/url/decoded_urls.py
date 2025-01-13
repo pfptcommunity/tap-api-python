@@ -8,8 +8,9 @@ class DecodedUrls(Dictionary):
     """
     Represents the root object of the URL decoding response.
     """
+
     def urls(self) -> List[UrlInfo]:
         """
-        Returns a list of DecodedUrlInfo objects representing the decoded URLs.
+        Returns a list of UrlInfo objects representing the decoded URLs.
         """
         return [UrlInfo(url) for url in self.get("urls", [])]

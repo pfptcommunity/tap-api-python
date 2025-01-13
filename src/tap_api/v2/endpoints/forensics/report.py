@@ -1,6 +1,7 @@
-
 from typing import List, Dict
+
 from .evidence import Evidence
+
 
 class Report(Dict):
     @property

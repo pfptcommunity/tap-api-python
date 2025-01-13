@@ -1,7 +1,7 @@
-
 from typing import List, Dict
-from .platform import Platform
+
 from .evidence_types import EvidenceType, create_evidence_type
+from .platform import Platform
 
 
 class Evidence(Dict):

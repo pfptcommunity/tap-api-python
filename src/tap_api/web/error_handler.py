@@ -7,6 +7,7 @@ License: MIT
 """
 import logging
 from typing import Any
+
 from requests import Response
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,7 @@ ERROR_MESSAGES = {
     429: "The user has made too many requests over the past 24 hours and has been throttled.",
     500: "The service has encountered an unexpected situation and is unable to give a better response to the request.",
 }
+
 
 class ErrorHandler:
     """

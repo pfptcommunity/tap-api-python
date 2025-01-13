@@ -9,11 +9,12 @@ from __future__ import annotations
 
 from posixpath import join
 from typing import Union, TypeVar
+
 from requests import Session
 
 
 class Resource:
-    __session = Session() # Shared session for all Resource instances
+    __session = Session()  # Shared session for all Resource instances
     """
     Represents a resource in a hierarchical structure with a URI.
 
@@ -21,6 +22,7 @@ class Resource:
         __parent (Resource | None): The parent resource.
         __name (str): The name of the resource.
     """
+
     def __init__(self, parent: Union[Resource, None], uri: str):
         """
         Initializes a new Resource.
@@ -61,5 +63,6 @@ class Resource:
     def session(self) -> Session:
         """Gets the HTTP session associated with this resource."""
         return self.__session
+
 
 TResource = TypeVar('TResource', bound=Resource)

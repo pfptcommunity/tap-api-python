@@ -1,7 +1,8 @@
-
 from typing import List
+
 from tap_api.web import Dictionary
 from .report import Report
+
 
 class AggregateForensics(Dictionary):
     @property

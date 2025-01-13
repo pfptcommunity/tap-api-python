@@ -1,8 +1,6 @@
-import json
-from typing import Dict
-
-from tap_api.common.people.filters import TimeWindow
 from tap_api.v2 import Client
+
+import json
 
 if __name__ == '__main__':
     api_key_file = open("../tap.api_key", "r")

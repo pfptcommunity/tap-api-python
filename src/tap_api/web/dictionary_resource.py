@@ -7,7 +7,7 @@ License: MIT
 """
 from __future__ import annotations
 
-from typing import TypeVar, Type, Generic, Union
+from typing import Type, Generic, Union
 
 from .dictionary import Dictionary, TDictionary
 from .resource import Resource

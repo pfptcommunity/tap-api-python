@@ -5,9 +5,7 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from typing import List, Callable
-
-from requests import Response
+from typing import List
 
 from tap_api.v2.endpoints.url.decoded_urls import DecodedUrls
 from tap_api.web.resource import Resource
@@ -19,6 +17,3 @@ class Decode(Resource):
 
     def __call__(self, urls: List[str]) -> DecodedUrls:
         return DecodedUrls(self.session.post(self.uri, json={"urls": urls}))
-
-
-

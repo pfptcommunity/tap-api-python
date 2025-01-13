@@ -6,61 +6,16 @@ Package: tap_api
 License: MIT
 """
 from datetime import datetime
-from typing import Dict, List
+from typing import List
 
 from requests import Response
 
+from .actor import Actor
+from .brand import Brand
+from .family import Family
+from .malware import Malware
+from .technique import Technique
 from tap_api.web import Dictionary
-
-
-class Actor(Dict):
-    @property
-    def id(self) -> str:
-        return self.get("id", "")
-
-    @property
-    def name(self) -> str:
-        return self.get("name", "")
-
-
-class Family(Dict):
-    @property
-    def id(self) -> str:
-        return self.get("id", "")
-
-    @property
-    def name(self) -> str:
-        return self.get("name", "")
-
-
-class Malware(Dict):
-    @property
-    def id(self) -> str:
-        return self.get("id", "")
-
-    @property
-    def name(self) -> str:
-        return self.get("name", "")
-
-
-class Technique(Dict):
-    @property
-    def id(self) -> str:
-        return self.get("id", "")
-
-    @property
-    def name(self) -> str:
-        return self.get("name", "")
-
-
-class Brand(Dict):
-    @property
-    def id(self) -> str:
-        return self.get("id", "")
-
-    @property
-    def name(self) -> str:
-        return self.get("name", "")
 
 
 class ThreatSummary(Dictionary):
