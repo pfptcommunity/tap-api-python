@@ -22,15 +22,6 @@ or can install the API library using pip.
 pip install tap-api
 ```
 
-### TAP API Versions
-
-Selecting the version of the TAP API is done at time of import.
-
-```python
-# Version v0.3.0 
-from tap_api.v2 import *
-```
-
 ### Creating an API client object
 
 ```python
