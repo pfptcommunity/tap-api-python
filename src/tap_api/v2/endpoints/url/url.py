@@ -10,8 +10,6 @@ from tap_api.web import Resource
 
 
 class Url(Resource):
-    __decode = Decode
-
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
         self.__decode = Decode(self, 'decode')

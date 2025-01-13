@@ -9,8 +9,7 @@ from typing import List, Callable
 
 from requests import Response
 
-from tap_api.v2.endpoints.url.url_info import UrlInfo
-from tap_api.web.dictionary_collection import DictionaryCollection
+from tap_api.v2.endpoints.url.decoded_urls import DecodedUrls
 from tap_api.web.resource import Resource
 
 
@@ -18,6 +17,8 @@ class Decode(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, urls: List[str]) -> DictionaryCollection[UrlInfo]:
-        transform: Callable[[Response], list] = lambda r: r.json().get('urls', [])
-        return DictionaryCollection[UrlInfo](self.session.post(self.uri, json={"urls": urls}), transform, UrlInfo)
+    def __call__(self, urls: List[str]) -> DecodedUrls:
+        return DecodedUrls(self.session.post(self.uri, json={"urls": urls}))
+
+
+

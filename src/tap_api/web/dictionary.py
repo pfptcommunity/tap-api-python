@@ -6,78 +6,44 @@ Package: et_api
 License: MIT
 """
 from __future__ import annotations
-from typing import Dict, TypeVar
+from typing import Dict, TypeVar, Optional, Callable
 from requests import Response
-from requests.structures import CaseInsensitiveDict
+
+from tap_api.web.response_wrapper import ResponseWrapper
 
 
-class Dictionary(Dict):
+class Dictionary(Dict, ResponseWrapper):
     """
     A specialized dictionary that wraps an HTTP response, providing access to both
     the JSON data (as a dictionary) and the original response object.
-
-    Methods:
-        get_status() -> int:
-            Returns the HTTP status code of the response.
-        get_reason() -> str:
-            Returns the HTTP reason phrase of the response.
-        get_response() -> Response:
-            Returns the original HTTP response object.
-        get_headers() -> dict:
-            Returns the HTTP headers from the response.
     """
 
-    def __init__(self, response: Response):
+    def __init__(self, response: Response, transform: Optional[Callable[[Response], Dict]] = None):
         """
         Initializes the Dictionary with JSON data from an HTTP response.
 
         Args:
             response (Response): The HTTP response object.
+            transform (Callable[[Response], Dict], optional): A function to transform the response into
+                a dictionary. Defaults to None.
 
         Raises:
             ValueError: If the response body is not valid JSON.
         """
         try:
-            super().__init__(response.json())
-            self.__response = response
+            ResponseWrapper.__init__(self, response)
+
+            # Apply the transform function if provided, otherwise use response.json()
+            if transform is not None:
+                if not callable(transform):
+                    raise TypeError("`transform` must be a callable function.")
+                transformed_data = transform(response)
+                if not isinstance(transformed_data, dict):
+                    raise ValueError("`transform` function must return a dictionary.")
+                super().__init__(transformed_data)
+            else:
+                super().__init__(response.json())
         except ValueError as e:
             raise ValueError("Response does not contain valid JSON data.") from e
-
-    def get_status(self) -> int:
-        """
-        Returns the HTTP status code of the response.
-
-        Returns:
-            int: The HTTP status code.
-        """
-        return self.__response.status_code
-
-    def get_reason(self) -> str:
-        """
-        Returns the HTTP reason phrase of the response.
-
-        Returns:
-            str: The HTTP reason phrase.
-        """
-        return self.__response.reason
-
-    def get_response(self) -> Response:
-        """
-        Returns the original HTTP response object.
-
-        Returns:
-            Response: The HTTP response object.
-        """
-        return self.__response
-
-    def get_headers(self) -> CaseInsensitiveDict[str]:
-        """
-        Returns the HTTP headers from the response.
-
-        Returns:
-            dict: The HTTP headers.
-        """
-        return self.__response.headers
-
 
 TDictionary = TypeVar('TDictionary', bound=Dictionary)

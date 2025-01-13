@@ -18,5 +18,5 @@ class Vap(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, options: VapOptions) -> VapInfo:
+    def __call__(self, options: VapOptions = VapOptions()) -> VapInfo:
         return VapInfo(self.session.get(self.uri, params=options.params))
