@@ -172,7 +172,7 @@ if __name__ == '__main__':
 HTTP Proxy Example (Squid):
 
 ```python
-from tap_api.v3 import *
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -184,7 +184,7 @@ if __name__ == '__main__':
 ### HTTP Timeout Settings
 
 ```python
-from tap_api.v3 import *
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
