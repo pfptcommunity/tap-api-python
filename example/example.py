@@ -1,3 +1,7 @@
+import datetime
+from datetime import timedelta, datetime
+
+from tap_api.common.campaign.time_interval import TimeInterval
 from tap_api.v2 import Client
 
 import json
@@ -10,6 +14,17 @@ if __name__ == '__main__':
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
     print(client.siem.uri)
     print(client.forensics.uri)
+    print(client.campaign.uri)
+    print(client.campaign.ids.uri)
+    c_infos = client.campaign.ids(TimeInterval(datetime.now(), duration=timedelta(minutes=30)))
+    print(c_infos.get_status())
+    print(c_infos.get_reason())
+    for c_info in c_infos.campaigns:
+        print(type(c_info).__name__)
+        print(c_info.id)
+        print(c_info.last_updated_at)
+    exit(0)
+
     #aggregate_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")
     aggregate_data = client.forensics.campaign("4a3df8c3-0055-4bc4-a150-73e81436871d")
     print("HTTP Status:", aggregate_data.get_status())
@@ -43,7 +58,6 @@ if __name__ == '__main__':
                     print(f"      Version: {platform.version}")
 
 
-    print(client.campaign.uri)
     #
     # # Dump URI build
     # print(client.threat.uri)
