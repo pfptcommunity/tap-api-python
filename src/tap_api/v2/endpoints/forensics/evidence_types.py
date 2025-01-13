@@ -27,7 +27,6 @@ class AttachmentEvidenceType(EvidenceType):
 
     @property
     def offset(self) -> Optional[int]:
-
         return self.get("offset")
 
     @property
@@ -105,12 +104,6 @@ class DropperEvidenceType(EvidenceType):
     @property
     def url(self) -> Optional[str]:
         return self.get("url")
-
-
-class EvidenceType(Dict):
-    def __init__(self, data):
-        super().__init__(data)
-        print(self.__class__.__name__)
 
 
 class FileEvidenceType(EvidenceType):
