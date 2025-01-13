@@ -40,8 +40,46 @@ if __name__ == '__main__':
     client = Client("<principal>","<secret>")
 ```
 
+### Querying the Forensics API
 
-### Querying VAP Data
+```python
+if __name__ == '__main__':
+    client = Client("<principal>","<secret>")
+    print(client.siem.uri)
+    print(client.forensics.uri)
+    aggregate_data = client.forensics.threat("<threat_id_here>")
+    print("HTTP Status:", aggregate_data.get_status())
+    print("HTTP Reason:", aggregate_data.get_reason())
+    for report in aggregate_data.reports:
+        print("\nReport:")
+        print(f"  Scope: {report.scope}")
+        print(f"  ID: {report.id}")
+        print(f"  Name: {report.name}")
+        print(f"  Threat Status: {report.threat_status}")
+
+        for forensic in report.forensics:
+            print("\n  Forensic:")
+            print(f"    Type: {forensic.type}")
+            print(f"    Display: {forensic.display}")
+            print(f"    Engine: {forensic.engine}")
+            print(f"    Malicious: {forensic.malicious}")
+            print(f"    Time: {forensic.time}")
+            print(f"    Note: {forensic.note or 'N/A'}")
+
+            # Dump the `what` object. Note helper properties exist, but you must know the object type or type. 
+            print("    What {}:".format(type(forensic.what).__name__))
+            print(json.dumps(forensic.what, indent=4))
+
+            # Dump platforms if available
+            if forensic.platforms:
+                print("    Platforms:")
+                for platform in forensic.platforms:
+                    print(f"      Name: {platform.name}")
+                    print(f"      OS: {platform.os}")
+                    print(f"      Version: {platform.version}")
+```
+
+### Querying the People API
 
 ```python
 if __name__ == '__main__':
