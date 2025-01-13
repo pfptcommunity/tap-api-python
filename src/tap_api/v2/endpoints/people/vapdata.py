@@ -5,19 +5,20 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from typing import Dict, List
+from typing import List
 
 from requests import Response
 
+from tap_api.v2.endpoints.people.user import User
 from tap_api.web import Dictionary
 
-class Vaps(Dictionary):
+class VapData(Dictionary):
     def __init__(self, response: Response):
         super().__init__(response)
 
     @property
-    def users(self) -> List[Dict]:
-        return self.get('users', [])
+    def users(self) -> List[User]:
+        return [User(user) for user in self.get("users", [])]
 
     @property
     def total_vap_users(self) -> int:

@@ -7,9 +7,9 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     api_key_file = open("../tap.api_key", "r")
     api_key_data = json.load(api_key_file)
-    api_key = api_key_file.read()
+    api_key = api_key_data.get("demous")
 
-    client = Client(api_key_data.get("PRINCIPAL"), api_key_data.get("SECRET"))
+    client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
     print(client.siem.uri)
     print(client.forensics.uri)
     # threat_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")
@@ -59,12 +59,32 @@ if __name__ == '__main__':
 
     print("HTTP Status:", vap_info.get_status())
     print("HTTP Reason:", vap_info.get_reason())
-    print("Users:", vap_info.users)
-    print("Total Vaps:", vap_info.total_vap_users)
+    print("Total VAPs:", vap_info.total_vap_users)
     print("Interval:", vap_info.interval)
-    print("Cluster Name:", vap_info.average_attack_index)
-    print("Recipient Email:", vap_info.average_attack_index)
-    print("VAP Info", json.dumps(vap_info, indent=4))
+    print("Average Attack Index:", vap_info.average_attack_index)
+    print("VAP Attack Threshold:", vap_info.vap_attack_index_threshold)
+
+    for user in vap_info.users:
+        identity = user.identity
+        threat_statistics = user.threat_statistics
+
+        print("\nUser Details:")
+        print("  Email(s):", identity.emails)
+        print("  Name:", identity.name or "N/A")
+        print("  Department:", identity.department or "N/A")
+        print("  Location:", identity.location or "N/A")
+        print("  Title:", identity.title or "N/A")
+        print("  VIP:", identity.vip)
+
+        print("Threat Statistics:")
+        print("  Attack Index:", threat_statistics.attack_index)
+        print("  Threat Families:")
+        for family in threat_statistics.families:
+            print(f"    - {family.name}: {family.score}")
+
+
+
+    #print("VAP Info", json.dumps(vap_info, indent=4))
 
     # # Dump URI build
     # print(client.url.uri)

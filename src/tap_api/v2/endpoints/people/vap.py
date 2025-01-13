@@ -1,6 +1,6 @@
 from typing import Optional
 from tap_api.common.people.filters import TimeWindow
-from tap_api.v2.endpoints.people.vaps import Vaps
+from tap_api.v2.endpoints.people.vapdata import VapData
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 import logging
@@ -11,7 +11,7 @@ class Vap(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, window: TimeWindow = TimeWindow.DAYS_30, page: Optional[int] = None, size: Optional[int] = None) -> Vaps:
+    def __call__(self, window: TimeWindow = TimeWindow.DAYS_30, page: Optional[int] = None, size: Optional[int] = None) -> VapData:
         if not isinstance(window, TimeWindow):
             raise TypeError("`window` must be an instance of TimeWindow.")
         if page is not None and page < 1:
@@ -25,4 +25,4 @@ class Vap(Resource):
         options.add_option("size", size)
 
         logger.debug(f"Query parameters: {options.params}")
-        return Vaps(self.session.get(self.uri, params=options.params))
+        return VapData(self.session.get(self.uri, params=options.params))
