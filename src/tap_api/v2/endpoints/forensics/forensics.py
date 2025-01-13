@@ -15,10 +15,10 @@ class Forensics(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def campaign(self, campaign_id: str) -> Dictionary:
+    def campaign(self, campaign_id: str) -> AggregateForensics:
         options = FilterOptions()
         options.add_option("campaign",campaign_id)
-        return Dictionary(self.session.get(self.uri,params=options.params))
+        return AggregateForensics(self.session.get(self.uri,params=options.params))
 
     def threat(self, threat_id: str, campaign_forensics: bool = False) -> AggregateForensics:
         options = FilterOptions()

@@ -33,6 +33,9 @@ class FilterOptions:
         Raises:
             TypeError: If the value type is not supported.
         """
+        if value is None:
+            return
+
         if not isinstance(value, (str, list, datetime, Enum, int, float, bool)):
             raise TypeError(f"Unsupported type for option value: {type(value).__name__}")
         self._options[key] = value
