@@ -1,6 +1,4 @@
 """
-This code was tested against Python 3.9
-
 Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
@@ -9,8 +7,8 @@ from typing import List
 
 from requests import Response
 
-from tap_api.v2.endpoints.people.user import User
 from tap_api.web import Dictionary
+from .user import User
 
 
 class VapData(Dictionary):

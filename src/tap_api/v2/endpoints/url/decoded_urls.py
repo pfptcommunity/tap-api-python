@@ -1,3 +1,8 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from typing import List
 
 from tap_api.v2.endpoints.url.url_info import UrlInfo

@@ -1,8 +1,6 @@
 """
-This code was tested against Python 3.9
-
 Author: Ludvik Jerabek
-Package: et_api
+Package: tap_api
 License: MIT
 """
 from __future__ import annotations

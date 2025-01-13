@@ -1,13 +1,11 @@
 """
-This code was tested against Python 3.9
- 
 Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-
-from tap_api.v2.endpoints.forensics.aggregate import AggregateForensics
 from tap_api.web import Resource, FilterOptions
+from .aggregate import AggregateForensics
+
 
 
 class Forensics(Resource):

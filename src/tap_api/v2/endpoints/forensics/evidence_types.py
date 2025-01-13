@@ -1,3 +1,8 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from __future__ import annotations
 
 from typing import Dict, Optional, List, Type

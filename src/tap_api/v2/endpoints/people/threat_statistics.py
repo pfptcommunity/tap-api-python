@@ -1,6 +1,11 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from typing import Dict, List
 
-from tap_api.v2.endpoints.people.threat_family import ThreatFamily
+from .threat_family import ThreatFamily
 
 
 class ThreatStatistics(Dict):

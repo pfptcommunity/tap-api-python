@@ -1,3 +1,8 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from typing import List, Dict
 
 from .evidence_types import EvidenceType, create_evidence_type

@@ -1,7 +1,12 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from typing import Dict
 
-from tap_api.v2.endpoints.people.identity import Identity
-from tap_api.v2.endpoints.people.threat_statistics import ThreatStatistics
+from .identity import Identity
+from .threat_statistics import ThreatStatistics
 
 
 class User(Dict):

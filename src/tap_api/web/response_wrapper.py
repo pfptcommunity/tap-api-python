@@ -1,3 +1,8 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 from requests import Response
 
 

@@ -1,10 +1,15 @@
+"""
+Author: Ludvik Jerabek
+Package: tap_api
+License: MIT
+"""
 import logging
 from typing import Optional
 
-from tap_api.common.people.filters import TimeWindow
-from tap_api.v2.endpoints.people.vapdata import VapData
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
+from tap_api.common.people.filters import TimeWindow
+from .vapdata import VapData
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,6 @@
 """
-This code was tested against Python 3.9
-
 Author: Ludvik Jerabek
-Package: et_api
+Package: tap_api
 License: MIT
 """
 from __future__ import annotations
@@ -11,7 +9,7 @@ from typing import Dict, TypeVar, Optional, Callable
 
 from requests import Response
 
-from tap_api.web.response_wrapper import ResponseWrapper
+from .response_wrapper import ResponseWrapper
 
 
 class Dictionary(Dict, ResponseWrapper):
