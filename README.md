@@ -1,4 +1,4 @@
-# Proofpoint Security Awareness Training API Package
+# Proofpoint Targeted Attack Protection API Package
 
 Library implements all of the functions of the TAP API via Python.
 
