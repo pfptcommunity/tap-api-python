@@ -33,6 +33,13 @@ if __name__ == '__main__':
 
 ### Querying the Forensics API
 
+The Forensics API allows administrators to pull detailed forensic evidences about individual threats or campaigns
+observed in their environment. These evidences could be used as indicators of compromise to confirm infection on a host,
+as supplementary data to enrich and correlate against other security intelligence sources, or to orchestrate updates to
+security endpoints to prevent exposure and infection.
+
+#### Getting data for forensics for threats
+
 ```python
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -70,6 +77,43 @@ if __name__ == '__main__':
                     print(f"      Version: {platform.version}")
 ```
 
+#### Getting data for forensics for campaigns
+
+```python
+if __name__ == '__main__':
+    client = Client("<principal>", "<secret>")
+    aggregate_data = client.forensics.campaign("<campaign_id_here>")
+    print("HTTP Status:", aggregate_data.get_status())
+    print("HTTP Reason:", aggregate_data.get_reason())
+    for report in aggregate_data.reports:
+        print("\nReport:")
+        print(f"  Scope: {report.scope}")
+        print(f"  ID: {report.id}")
+        print(f"  Name: {report.name}")
+        print(f"  Threat Status: {report.threat_status}")
+
+        for forensic in report.forensics:
+            print("\n  Forensic:")
+            print(f"    Type: {forensic.type}")
+            print(f"    Display: {forensic.display}")
+            print(f"    Engine: {forensic.engine}")
+            print(f"    Malicious: {forensic.malicious}")
+            print(f"    Time: {forensic.time}")
+            print(f"    Note: {forensic.note or 'N/A'}")
+
+            # Dump the `what` object. Note helper properties exist, but you must know the object type or type.
+            print("    What {}:".format(type(forensic.what).__name__))
+            print(json.dumps(forensic.what, indent=4))
+
+            # Dump platforms if available
+            if forensic.platforms:
+                print("    Platforms:")
+                for platform in forensic.platforms:
+                    print(f"      Name: {platform.name}")
+                    print(f"      OS: {platform.os}")
+                    print(f"      Version: {platform.version}")
+```
+
 ### Querying the Threats API
 
 ```python
@@ -77,7 +121,7 @@ if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 
     # Returns a threat summary dictionary
-    threat_summary = client.threat.summary["<threat_id>"]()
+    threat_summary = client.threat.summary["<threat_id_here>"]()
 
     # Dictionary object also has data associated with the HTTP response.
     print("HTTP Status:", threat_summary.get_status())
@@ -125,6 +169,9 @@ if __name__ == '__main__':
 
 ### Querying the People API
 
+The People API allows administrators to identify which users in their organizations were most attacked or are the top
+clickers during a specified period.
+
 ```python
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -157,6 +204,8 @@ if __name__ == '__main__':
 ```
 
 ### Querying the URL Decoder API
+
+The URL Decoder API allows users to decode URLs which have been rewritten by TAP to their original, target URL.
 
 ```python
 if __name__ == '__main__':

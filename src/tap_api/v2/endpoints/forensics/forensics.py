@@ -17,7 +17,7 @@ class Forensics(Resource):
 
     def campaign(self, campaign_id: str) -> AggregateForensics:
         options = FilterOptions()
-        options.add_option("campaign",campaign_id)
+        options.add_option("campaignId",campaign_id)
         return AggregateForensics(self.session.get(self.uri,params=options.params))
 
     def threat(self, threat_id: str, campaign_forensics: bool = False) -> AggregateForensics:
