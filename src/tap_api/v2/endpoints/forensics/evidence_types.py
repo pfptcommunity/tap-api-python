@@ -10,7 +10,6 @@ class EvidenceType(Dict):
 
     def __init__(self, data):
         super().__init__(data)
-        print(self.__class__.__name__)
 
 
 class AttachmentEvidenceType(EvidenceType):
@@ -112,106 +111,6 @@ class EvidenceType(Dict):
     def __init__(self, data):
         super().__init__(data)
         print(self.__class__.__name__)
-
-
-class RuleEvidenceType(EvidenceType):
-    @property
-    def rule(self) -> Optional[str]:
-        return self.get("rule")
-
-
-class AttachmentEvidenceType(EvidenceType):
-    @property
-    def sha256(self) -> Optional[str]:
-        return self.get("sha256")
-
-    @property
-    def blacklisted(self) -> Optional[bool]:
-        return self.get("blacklisted")
-
-    @property
-    def md5(self) -> Optional[str]:
-        return self.get("md5")
-
-    @property
-    def offset(self) -> Optional[int]:
-        return self.get("offset")
-
-    @property
-    def rule(self) -> Optional[str]:
-        return self.get("rule")
-
-    @property
-    def size(self) -> Optional[int]:
-        return self.get("size")
-
-
-class BehaviorEvidenceType(EvidenceType):
-    @property
-    def rule(self) -> Optional[str]:
-        return self.get("rule")
-
-    @property
-    def note(self) -> Optional[str]:
-        return self.get("note")
-
-    @property
-    def malicious(self) -> Optional[bool]:
-        return self.get("malicious")
-
-
-class CookieEvidenceType(EvidenceType):
-    @property
-    def action(self) -> str:
-        return self.get("action", "")
-
-    @property
-    def domain(self) -> str:
-        return self.get("domain", "")
-
-    @property
-    def key(self) -> str:
-        return self.get("key", "")
-
-    @property
-    def value(self) -> Optional[str]:
-        return self.get("value")
-
-
-class DNSEvidenceType(EvidenceType):
-    @property
-    def host(self) -> str:
-        return self.get("host", "")
-
-    @property
-    def cnames(self) -> Optional[List[str]]:
-        return self.get("cnames")
-
-    @property
-    def ips(self) -> Optional[List[str]]:
-        return self.get("ips")
-
-    @property
-    def nameservers(self) -> Optional[List[str]]:
-        return self.get("nameservers")
-
-    @property
-    def nameservers_list(self) -> Optional[List[str]]:
-        return self.get("nameserversList")
-
-
-class DropperEvidenceType(EvidenceType):
-    @property
-    def path(self) -> str:
-        return self.get("path", "")
-
-    @property
-    def rule(self) -> Optional[str]:
-        return self.get("rule")
-
-    @property
-    def url(self) -> Optional[str]:
-        return self.get("url")
 
 
 class FileEvidenceType(EvidenceType):
