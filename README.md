@@ -37,14 +37,14 @@ from tap_api.v2 import *
 from tap_api.v2 import *
 
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
 ```
 
 ### Querying the Forensics API
 
 ```python
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
     print(client.siem.uri)
     print(client.forensics.uri)
     aggregate_data = client.forensics.threat("<threat_id_here>")
@@ -79,11 +79,64 @@ if __name__ == '__main__':
                     print(f"      Version: {platform.version}")
 ```
 
+### Querying the Threats API
+
+```python
+if __name__ == '__main__':
+    client = Client("<principal>", "<secret>")
+
+    # Returns a threat summary dictionary
+    threat_summary = client.threat.summary["<threat_id>"]()
+
+    # Dictionary object also has data associated with the HTTP response.
+    print("HTTP Status:", threat_summary.get_status())
+    print("HTTP Reason:", threat_summary.get_reason())
+
+    print("\nThreat Info:")
+    print(f"  ID: {threat_summary.id}")
+    print(f"  Identified At: {threat_summary.identified_at}")
+    print(f"  Name: {threat_summary.name}")
+    print(f"  Type: {threat_summary.type}")
+    print(f"  Category: {threat_summary.category}")
+    print(f"  Status: {threat_summary.status}")
+    print(f"  Detection Type: {threat_summary.detection_type}")
+    print(f"  Severity: {threat_summary.severity}")
+    print(f"  Attack Spread: {threat_summary.attack_spread}")
+    print(f"  Notable: {threat_summary.notable}")
+    print(f"  Verticals: {threat_summary.verticals}")
+    print(f"  Geographies: {threat_summary.geographies}")
+
+    print("\n  Actors:")
+    for actor in threat_summary.actors:
+        print(f"    ID: {actor.id}")
+        print(f"    Name: {actor.name}")
+
+    print("\n  Families:")
+    for family in threat_summary.families:
+        print(f"    ID: {family.id}")
+        print(f"    Name: {family.name}")
+
+    print("\n  Malware:")
+    for malware in threat_summary.malware:
+        print(f"    ID: {malware.id}")
+        print(f"    Name: {malware.name}")
+
+    print("\n  Techniques:")
+    for technique in threat_summary.techniques:
+        print(f"    ID: {technique.id}")
+        print(f"    Name: {technique.name}")
+
+    print("\n  Brands:")
+    for brand in threat_summary.brands:
+        print(f"    ID: {brand.id}")
+        print(f"    Name: {brand.name}")
+```
+
 ### Querying the People API
 
 ```python
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
     vap_info = client.people.vap()
 
     print("HTTP Status:", vap_info.get_status())
@@ -120,7 +173,7 @@ Socks5 Proxy Example:
 from tap_api.v2 import *
 
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
     credentials = "{}:{}@".format("proxyuser", "proxypass")
     client.session.proxies = {'https': "{}://{}{}:{}".format('socks5', credentials, '<your_proxy>', '8128')}
 ```
@@ -131,7 +184,7 @@ HTTP Proxy Example (Squid):
 from tap_api.v3 import *
 
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
     credentials = "{}:{}@".format("proxyuser", "proxypass")
     client.session.proxies = {'https': "{}://{}{}:{}".format('http', credentials, '<your_proxy>', '3128')}
 
@@ -143,7 +196,7 @@ if __name__ == '__main__':
 from tap_api.v3 import *
 
 if __name__ == '__main__':
-    client = Client("<principal>","<secret>")
+    client = Client("<principal>", "<secret>")
     # Timeout in seconds, connect timeout
     client.timeout = 600
     # Timeout advanced, connect / read timeout

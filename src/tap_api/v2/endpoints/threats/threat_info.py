@@ -13,6 +13,56 @@ from requests import Response
 from tap_api.web import Dictionary
 
 
+class Actor(Dict):
+    @property
+    def id(self) -> str:
+        return self.get("id", "")
+
+    @property
+    def name(self) -> str:
+        return self.get("name", "")
+
+
+class Family(Dict):
+    @property
+    def id(self) -> str:
+        return self.get("id", "")
+
+    @property
+    def name(self) -> str:
+        return self.get("name", "")
+
+
+class Malware(Dict):
+    @property
+    def id(self) -> str:
+        return self.get("id", "")
+
+    @property
+    def name(self) -> str:
+        return self.get("name", "")
+
+
+class Technique(Dict):
+    @property
+    def id(self) -> str:
+        return self.get("id", "")
+
+    @property
+    def name(self) -> str:
+        return self.get("name", "")
+
+
+class Brand(Dict):
+    @property
+    def id(self) -> str:
+        return self.get("id", "")
+
+    @property
+    def name(self) -> str:
+        return self.get("name", "")
+
+
 class ThreatInfo(Dictionary):
     def __init__(self, response: Response):
         super().__init__(response)
@@ -66,21 +116,21 @@ class ThreatInfo(Dictionary):
         return self.get('geographies', False)
 
     @property
-    def actors(self) -> List[Dict[str, str]]:
-        return self.get('actors', [])
+    def actors(self) -> List[Actor]:
+        return [Actor(actor) for actor in self.get("actors", [])]
 
     @property
-    def families(self) -> List[Dict[str, str]]:
-        return self.get('families', [])
+    def families(self) -> List[Family]:
+        return [Family(family) for family in self.get("families", [])]
 
     @property
-    def malware(self) -> List[Dict[str, str]]:
-        return self.get('malware', [])
+    def malware(self) -> List[Malware]:
+        return [Malware(m) for m in self.get("malware", [])]
 
     @property
-    def techniques(self) -> List[Dict[str, str]]:
-        return self.get('techniques', [])
+    def techniques(self) -> List[Technique]:
+        return [Technique(t) for t in self.get("techniques", [])]
 
     @property
-    def brands(self) -> List[Dict[str, str]]:
-        return self.get('brands', [])
+    def brands(self) -> List[Brand]:
+        return [Brand(b) for b in self.get("brands", [])]
