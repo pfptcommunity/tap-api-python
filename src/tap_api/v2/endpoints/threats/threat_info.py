@@ -63,7 +63,7 @@ class Brand(Dict):
         return self.get("name", "")
 
 
-class ThreatInfo(Dictionary):
+class ThreatSummary(Dictionary):
     def __init__(self, response: Response):
         super().__init__(response)
 

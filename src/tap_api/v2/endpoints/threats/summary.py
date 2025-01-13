@@ -5,10 +5,10 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from tap_api.v2.endpoints.threats.threat_info import ThreatInfo
+from tap_api.v2.endpoints.threats.threat_info import ThreatSummary
 from tap_api.web import DictionaryResource
 
 
-class Summary(DictionaryResource[ThreatInfo]):
+class Summary(DictionaryResource[ThreatSummary]):
     def __init__(self, parent, uri: str):
-        super().__init__(parent, uri, ThreatInfo)
+        super().__init__(parent, uri, ThreatSummary)
