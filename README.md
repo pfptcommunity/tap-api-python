@@ -75,7 +75,10 @@ The Campaign API allows administrators to pull campaign IDs in a timeframe and s
 Used to fetch a list of IDs of campaigns active in a time window sorted by the last updated timestamp.
 
 ```python
-from tap_api.v2 import *
+from datetime import timedelta, datetime, timezone
+from tap_api.common import StartOffsetInterval, StartEndInterval, OffsetEndInterval, TimeWindow
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
@@ -91,7 +94,8 @@ if __name__ == '__main__':
 The sample below shows how to query detailed information for a given campaign.
 
 ```python
-from tap_api.v2 import *
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     
@@ -145,6 +149,8 @@ security endpoints to prevent exposure and infection.
 #### Getting data for forensics for threats
 
 ```python
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     print(client.siem.uri)
@@ -184,6 +190,8 @@ if __name__ == '__main__':
 #### Getting data for forensics for campaigns
 
 ```python
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     aggregate_data = client.forensics.campaign("<campaign_id_here>")
@@ -221,6 +229,8 @@ if __name__ == '__main__':
 ### Querying the Threats API
 
 ```python
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 
@@ -277,6 +287,8 @@ The People API allows administrators to identify which users in their organizati
 clickers during a specified period.
 
 ```python
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     vap_info = client.people.vap()
@@ -312,6 +324,8 @@ if __name__ == '__main__':
 The URL Decoder API allows users to decode URLs which have been rewritten by TAP to their original, target URL.
 
 ```python
+from tap_api.v2 import Client
+
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     decoded_urls = client.url.decode([
@@ -340,7 +354,7 @@ if __name__ == '__main__':
 Socks5 Proxy Example:
 
 ```python
-from tap_api.v2 import *
+from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -351,7 +365,7 @@ if __name__ == '__main__':
 HTTP Proxy Example (Squid):
 
 ```python
-from tap_api.v2 import *
+from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -363,7 +377,7 @@ if __name__ == '__main__':
 ### HTTP Timeout Settings
 
 ```python
-from tap_api.v2 import *
+from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -375,7 +389,7 @@ if __name__ == '__main__':
 
 ### Limitations
 
-There are currently no known limitations.
+Currently the SIEM API has not yet been implemented. 
 
 For more information please see: https://help.proofpoint.com/Threat_Insight_Dashboard/API_Documentation
 
