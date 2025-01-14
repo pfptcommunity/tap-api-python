@@ -5,6 +5,7 @@ License: MIT
 """
 from __future__ import annotations
 
+import json
 from typing import Dict, TypeVar, Optional, Callable
 
 from requests import Response
@@ -32,7 +33,6 @@ class Dictionary(Dict, ResponseWrapper):
         """
         try:
             ResponseWrapper.__init__(self, response)
-
             # Apply the transform function if provided, otherwise use response.json()
             if transform is not None:
                 if not callable(transform):

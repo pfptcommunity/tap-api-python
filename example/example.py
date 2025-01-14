@@ -17,15 +17,54 @@ if __name__ == '__main__':
     print(client.campaign.uri)
     print(client.campaign.ids.uri)
 
-    campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
-    print(campaign_data.get_status())
-    print(campaign_data.get_reason())
-    for info in campaign_data.campaigns:
-        print("\nCampaigns:")
-        print(f"  ID: {info.id}")
-        print(f"  Last Updated At: {info.last_updated_at}")
-    exit(0)
+    # campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
+    # print(campaign_data.get_status())
+    # print(campaign_data.get_reason())
+    # for info in campaign_data.campaigns:
+    #     print("\nCampaigns:")
+    #     print(f"  ID: {info.id}")
+    #     print(f"  Last Updated At: {info.last_updated_at}")
+    #
 
+    print(client.campaign["a4363a95-4ae5-4b02-80b8-879980acc041"].uri)
+    campaign_summary = client.campaign["a4363a95-4ae5-4b02-80b8-879980acc041"]()
+
+    print("HTTP Status:", campaign_summary.get_status())
+    print("HTTP Reason:", campaign_summary.get_reason())
+    print("\nCampaign:")
+    print(f"  ID: {campaign_summary.id}")
+    print(f"  Name: {campaign_summary.name}")
+    print(f"  Description: {campaign_summary.description}")
+    print(f"  Start Date: {campaign_summary.start_date}")
+    for campaign_member in campaign_summary.campaign_members:
+        print("\n  Campaign Member:")
+        print(f"    ID: {campaign_member.id}")
+        print(f"    Name: {campaign_member.name}")
+        print(f"    Type: {campaign_member.type}")
+        print(f"    Sub Type: {campaign_member.sub_type}")
+        print(f"    Threat Time: {campaign_member.threat_time}")
+
+    for actor in campaign_summary.actors:
+        print("\n  Campaign Actor:")
+        print(f"    ID: {actor.id}")
+        print(f"    Name: {actor.name}")
+
+    for malware in campaign_summary.malware:
+        print("\n  Malware:")
+        print(f"    ID: {malware.id}")
+        print(f"    Name: {malware.name}")
+
+    for technique in campaign_summary.techniques:
+        print("\n  Malware:")
+        print(f"    ID: {technique.id}")
+        print(f"    Name: {technique.name}")
+
+    for family in campaign_summary.families:
+        print("\n  Family:")
+        print(f"    ID: {family.id}")
+        print(f"    Name: {family.name}")
+
+    exit(0)
     #aggregate_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")
     aggregate_data = client.forensics.campaign("4a3df8c3-0055-4bc4-a150-73e81436871d")
     print("HTTP Status:", aggregate_data.get_status())

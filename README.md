@@ -88,7 +88,52 @@ if __name__ == '__main__':
 ```
 #### Getting campaign details
 
+The sample below shows how to query detailed information for a given campaign.
 
+```python
+from tap_api.v2 import *
+if __name__ == '__main__':
+    client = Client("<principal>", "<secret>")
+    
+    print(client.campaign["<campaign_id_here>"].uri)
+    
+    campaign_summary = client.campaign["<campaign_id_here>"]()
+
+    print("HTTP Status:", campaign_summary.get_status())
+    print("HTTP Reason:", campaign_summary.get_reason())
+    print("\nCampaign:")
+    print(f"  ID: {campaign_summary.id}")
+    print(f"  Name: {campaign_summary.name}")
+    print(f"  Description: {campaign_summary.description}")
+    print(f"  Start Date: {campaign_summary.start_date}")
+    for campaign_member in campaign_summary.campaign_members:
+        print("\n  Campaign Member:")
+        print(f"    ID: {campaign_member.id}")
+        print(f"    Name: {campaign_member.name}")
+        print(f"    Type: {campaign_member.type}")
+        print(f"    Sub Type: {campaign_member.sub_type}")
+        print(f"    Threat Time: {campaign_member.threat_time}")
+
+    for actor in campaign_summary.actors:
+        print("\n  Campaign Actor:")
+        print(f"    ID: {actor.id}")
+        print(f"    Name: {actor.name}")
+
+    for malware in campaign_summary.malware:
+        print("\n  Malware:")
+        print(f"    ID: {malware.id}")
+        print(f"    Name: {malware.name}")
+
+    for technique in campaign_summary.techniques:
+        print("\n  Malware:")
+        print(f"    ID: {technique.id}")
+        print(f"    Name: {technique.name}")
+
+    for family in campaign_summary.families:
+        print("\n  Family:")
+        print(f"    ID: {family.id}")
+        print(f"    Name: {family.name}")
+```
 
 ### Querying the Forensics API
 
