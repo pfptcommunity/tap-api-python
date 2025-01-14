@@ -1,7 +1,7 @@
 import datetime
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, timezone
 
-from tap_api.common.campaign.time_interval import TimeInterval
+from tap_api.common.campaign.time_interval import StartOffsetInterval, StartEndInterval, OffsetEndInterval
 from tap_api.v2 import Client
 
 import json
@@ -16,13 +16,14 @@ if __name__ == '__main__':
     print(client.forensics.uri)
     print(client.campaign.uri)
     print(client.campaign.ids.uri)
-    c_infos = client.campaign.ids(TimeInterval(datetime.now(), duration=timedelta(minutes=30)))
-    print(c_infos.get_status())
-    print(c_infos.get_reason())
-    for c_info in c_infos.campaigns:
-        print(type(c_info).__name__)
-        print(c_info.id)
-        print(c_info.last_updated_at)
+
+    campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
+    print(campaign_data.get_status())
+    print(campaign_data.get_reason())
+    for info in campaign_data.campaigns:
+        print("\nCampaigns:")
+        print(f"  ID: {info.id}")
+        print(f"  Last Updated At: {info.last_updated_at}")
     exit(0)
 
     #aggregate_data = client.forensics.threat("982e999847425ff196939cb2385887f685b1fe0dcd258560cf4de3c7169cdcaa")

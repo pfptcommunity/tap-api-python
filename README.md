@@ -56,13 +56,39 @@ pipx install tap-api
 
 
 ### Creating an API client object
-
 ```python
 from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 ```
+
+### Querying the Campaign API
+The Campaign API allows administrators to pull campaign IDs in a timeframe and specific details about campaigns, including:
+
+- their description;
+- the actor, malware family, and techniques associated with the campaign; and
+- the threat variants which have been associated with the campaign
+
+#### Getting campaign id metadata
+
+Used to fetch a list of IDs of campaigns active in a time window sorted by the last updated timestamp.
+
+```python
+from tap_api.v2 import *
+if __name__ == '__main__':
+    client = Client("<principal>", "<secret>")
+    campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
+    print(campaign_data.get_status())
+    print(campaign_data.get_reason())
+    for info in campaign_data.campaigns:
+        print("\nCampaigns:")
+        print(f"  ID: {info.id}")
+        print(f"  Last Updated At: {info.last_updated_at}")
+```
+#### Getting campaign details
+
+
 
 ### Querying the Forensics API
 
