@@ -11,7 +11,7 @@ from tap_api.web import Dictionary
 from .user import User
 
 
-class VapData(Dictionary):
+class VapSummary(Dictionary):
     def __init__(self, response: Response):
         super().__init__(response)
 

@@ -10,7 +10,8 @@ from .vap import Vap
 class People(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
+        self.__vap = Vap(self, "vap")
 
     @property
     def vap(self) -> Vap:
-        return Vap(self, "vap")
+        return self.__vap

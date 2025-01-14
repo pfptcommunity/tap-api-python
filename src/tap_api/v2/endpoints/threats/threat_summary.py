@@ -8,12 +8,12 @@ from typing import List
 
 from requests import Response
 
+from tap_api.web import Dictionary
 from .actor import Actor
 from .brand import Brand
 from .family import Family
 from .malware import Malware
 from .technique import Technique
-from tap_api.web import Dictionary
 
 
 class ThreatSummary(Dictionary):

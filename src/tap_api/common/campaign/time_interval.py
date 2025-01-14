@@ -3,8 +3,8 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from datetime import datetime, timedelta
 from abc import ABC, abstractmethod
+from datetime import datetime, timedelta
 
 
 class TimeInterval(ABC):

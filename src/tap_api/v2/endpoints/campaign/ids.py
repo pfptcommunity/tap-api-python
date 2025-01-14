@@ -10,11 +10,13 @@ from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 from .campaign_metadata import CampaignMetadata
 
+
 class Ids(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, interval: TimeInterval, page: Optional[int] = None, size: Optional[int] = None) -> CampaignMetadata:
+    def __call__(self, interval: TimeInterval, page: Optional[int] = None,
+                 size: Optional[int] = None) -> CampaignMetadata:
         if not isinstance(interval, TimeInterval):
             raise TypeError("`interval` must be an instance of TimeInterval.")
         if page is not None and page < 1:

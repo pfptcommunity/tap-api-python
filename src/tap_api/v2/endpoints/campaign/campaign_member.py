@@ -26,4 +26,3 @@ class CampaignMember(Dict):
     @property
     def threat_time(self) -> str:
         return self.get("threatTime", "")
-

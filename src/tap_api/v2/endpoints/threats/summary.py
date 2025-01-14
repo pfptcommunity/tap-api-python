@@ -3,8 +3,8 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from .threat_summary import ThreatSummary
 from tap_api.web import DictionaryResource
+from .threat_summary import ThreatSummary
 
 
 class Summary(DictionaryResource[ThreatSummary]):

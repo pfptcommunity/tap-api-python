@@ -5,7 +5,6 @@ License: MIT
 """
 from __future__ import annotations
 
-import json
 from typing import Dict, TypeVar, Optional, Callable
 
 from requests import Response

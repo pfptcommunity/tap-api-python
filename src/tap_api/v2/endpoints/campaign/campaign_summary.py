@@ -3,14 +3,11 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-import json
-from datetime import datetime
 from typing import List
 
 from requests import Response
 
-from tap_api.web import Dictionary, DictionaryResource
-
+from tap_api.web import Dictionary
 from .actor import Actor
 from .campaign_family import CampaignFamily
 from .campaign_member import CampaignMember

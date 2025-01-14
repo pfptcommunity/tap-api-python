@@ -8,6 +8,7 @@ from typing import List
 from tap_api.web import Dictionary
 from .campaign_info import CampaignInfo
 
+
 class CampaignMetadata(Dictionary):
     @property
     def campaigns(self) -> List[CampaignInfo]:

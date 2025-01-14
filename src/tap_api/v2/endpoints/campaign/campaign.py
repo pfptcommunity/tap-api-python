@@ -7,10 +7,12 @@ from tap_api.web import Resources
 from .campaign_id import CampaignId
 from .ids import Ids
 
+
 class Campaign(Resources[CampaignId]):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri, CampaignId)
+        self.__ids = Ids(self, "ids")
 
     @property
     def ids(self) -> Ids:
-        return Ids(self, "ids")
+        return self.__ids

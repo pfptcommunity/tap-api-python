@@ -7,7 +7,6 @@ from tap_api.web import Resource, FilterOptions
 from .aggregate import AggregateForensics
 
 
-
 class Forensics(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)

@@ -3,8 +3,8 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from .summary import Summary
 from tap_api.web import Resource, Resources
+from .summary import Summary
 
 
 class Threat(Resource):
