@@ -5,7 +5,7 @@ License: MIT
 """
 from typing import Optional
 
-from tap_api.common.campaign.time_interval import TimeInterval
+from tap_api.common.campaign.filters import TimeInterval
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 from .campaign_metadata import CampaignMetadata
