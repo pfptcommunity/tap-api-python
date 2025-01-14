@@ -1,6 +1,6 @@
 # Proofpoint Targeted Attack Protection API Package
 
-Library implements all of the functions of the TAP API via Python.
+Library implements all of the functions of the TAP API via Python, except SIEM API currently. 
 
 ### Requirements:
 
