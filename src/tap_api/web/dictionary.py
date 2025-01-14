@@ -43,7 +43,8 @@ class Dictionary(Dict, ResponseWrapper):
             else:
                 super().__init__(response.json())
         except ValueError as e:
-            raise ValueError("Response does not contain valid JSON data.") from e
+            raise ValueError(
+                f"Malformed JSON response from request. HTTP [{response.status_code}/{response.reason}] - {response.text[:255]}") from e
 
 
 TDictionary = TypeVar('TDictionary', bound=Dictionary)
