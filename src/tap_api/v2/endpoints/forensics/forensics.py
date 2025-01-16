@@ -14,10 +14,10 @@ class Forensics(Resource):
     def campaign(self, campaign_id: str) -> AggregateForensics:
         options = FilterOptions()
         options.add_option("campaignId", campaign_id)
-        return AggregateForensics(self.session.get(self.uri, params=options.params))
+        return AggregateForensics(self._session.get(self._uri, params=options.params))
 
     def threat(self, threat_id: str, campaign_forensics: bool = False) -> AggregateForensics:
         options = FilterOptions()
         options.add_option("threatId", threat_id)
         options.add_option("includecampaignforensics", campaign_forensics)
-        return AggregateForensics(self.session.get(self.uri, params=options.params))
+        return AggregateForensics(self._session.get(self._uri, params=options.params))

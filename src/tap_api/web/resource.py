@@ -38,7 +38,7 @@ class Resource:
         return self.__name
 
     @property
-    def uri(self) -> str:
+    def _uri(self) -> str:
         """
         Constructs the full URI for this resource by traversing its parent chain.
 
@@ -58,7 +58,7 @@ class Resource:
         return uri
 
     @property
-    def session(self) -> Session:
+    def _session(self) -> Session:
         """Gets the HTTP session associated with this resource."""
         return self.__session
 

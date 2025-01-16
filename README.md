@@ -103,7 +103,7 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 
-    print(client.campaign["<campaign_id_here>"].uri)
+    print(client.campaign["<campaign_id_here>"]._uri)
 
     campaign_summary = client.campaign["<campaign_id_here>"]()
 
@@ -157,8 +157,8 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
-    print(client.siem.uri)
-    print(client.forensics.uri)
+    print(client.siem._uri)
+    print(client.forensics._uri)
     aggregate_data = client.forensics.threat("<threat_id_here>")
     print("HTTP Status:", aggregate_data.get_status())
     print("HTTP Reason:", aggregate_data.get_reason())
@@ -363,7 +363,7 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     credentials = "{}:{}@".format("proxyuser", "proxypass")
-    client.session.proxies = {'https': "{}://{}{}:{}".format('socks5', credentials, '<your_proxy>', '8128')}
+    client._session.proxies = {'https': "{}://{}{}:{}".format('socks5', credentials, '<your_proxy>', '8128')}
 ```
 
 HTTP Proxy Example (Squid):
@@ -374,7 +374,7 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
     credentials = "{}:{}@".format("proxyuser", "proxypass")
-    client.session.proxies = {'https': "{}://{}{}:{}".format('http', credentials, '<your_proxy>', '3128')}
+    client._session.proxies = {'https': "{}://{}{}:{}".format('http', credentials, '<your_proxy>', '3128')}
 
 ```
 

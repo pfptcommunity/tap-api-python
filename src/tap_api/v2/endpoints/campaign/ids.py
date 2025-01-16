@@ -28,4 +28,4 @@ class Ids(Resource):
         options.add_option("interval", interval)
         options.add_option("page", page)
         options.add_option("size", size)
-        return CampaignMetadata(self.session.get(self.uri, params=options.params))
+        return CampaignMetadata(self._session.get(self._uri, params=options.params))

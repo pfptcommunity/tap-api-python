@@ -14,4 +14,4 @@ class Decode(Resource):
         super().__init__(parent, uri)
 
     def __call__(self, urls: List[str]) -> DecodedUrls:
-        return DecodedUrls(self.session.post(self.uri, json={"urls": urls}))
+        return DecodedUrls(self._session.post(self._uri, json={"urls": urls}))

@@ -43,6 +43,6 @@ class DictionaryResource(Generic[TDictionary], Resource):
             ValueError: If the response data cannot be converted to the specified dictionary type.
         """
         try:
-            return self._dict_type(self.session.get(self.uri))
+            return self._dict_type(self._session.get(self._uri))
         except Exception as e:
-            raise ValueError(f"Failed to fetch or parse resource data from {self.uri}: {e}")
+            raise ValueError(f"Failed to fetch or parse resource data from {self._uri}: {e}")

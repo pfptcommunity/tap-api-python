@@ -29,4 +29,4 @@ class Vap(Resource):
         options.add_option("page", page)
         options.add_option("size", size)
 
-        return VapSummary(self.session.get(self.uri, params=options.params))
+        return VapSummary(self._session.get(self._uri, params=options.params))

@@ -41,8 +41,8 @@ class Client(Resource):
     def __init__(self, principal: str, secret: str):
         super().__init__(None, 'https://tap-api-v2.proofpoint.com/v2')
         self.__error_handler = ErrorHandler()
-        self.session.hooks = {"response": self.__error_handler.handler}
-        self.session.auth = (principal, secret)
+        self._session.hooks = {"response": self.__error_handler.handler}
+        self._session.auth = (principal, secret)
         self.__siem = Siem(self, 'siem')
         self.__forensics = Forensics(self, 'forensics')
         self.__campaign = Campaign(self, 'campaign')
@@ -81,11 +81,11 @@ class Client(Resource):
 
     @property
     def timeout(self):
-        return self.session.adapters.get('https://').timeout
+        return self._session.adapters.get('https://').timeout
 
     @timeout.setter
     def timeout(self, timeout):
-        self.session.adapters.get('https://').timeout = timeout
+        self._session.adapters.get('https://').timeout = timeout
 
     @property
     def error_handler(self) -> ErrorHandler:

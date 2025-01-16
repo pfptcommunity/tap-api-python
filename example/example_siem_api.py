@@ -1,7 +1,7 @@
 import json
 from datetime import timedelta, datetime, timezone
 
-from tap_api.common import StartEndInterval, SinceSeconds
+from tap_api.common import StartEndInterval, SinceSeconds, SinceTime
 from tap_api.v2 import Client
 
 
@@ -115,14 +115,18 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
-    print(client.siem.uri)
-    print(client.siem.clicks.uri)
-    print(client.siem.clicks.blocked.uri)
-    print(client.siem.clicks.permitted.uri)
-    print(client.siem.messages.uri)
-    print(client.siem.issues.uri)
-    print(client.siem.all.uri)
+    # URI Modeling
+    print(client.siem._uri)
+    print(client.siem.clicks._uri)
+    print(client.siem.clicks.blocked._uri)
+    print(client.siem.clicks.permitted._uri)
+    print(client.siem.messages._uri)
+    print(client.siem.messages.blocked._uri)
+    print(client.siem.messages.delivered._uri)
+    print(client.siem.issues._uri)
+    print(client.siem.all._uri)
 
+    # Dump the data for all endpoints, TimeRange is handled by SinceSeconds, SinceDateTime, StartEndInterval
     print_siem_data_summary(client.siem.clicks.blocked(SinceSeconds(3600)))
     print_siem_data_summary(client.siem.clicks.permitted(SinceSeconds(3600)))
     print_siem_data_summary(client.siem.messages.blocked(SinceSeconds(3600)))

@@ -5,7 +5,7 @@ License: MIT
 """
 from typing import Optional
 
-from tap_api.common.campaign.filters import TimeParameter, SinceSeconds, SinceTime, StartEndInterval
+from tap_api.common.campaign.filters import TimeParameter, SinceSeconds, SinceTime, StartEndInterval, TimeInterval
 from tap_api.common.siem.filters import ThreatType, ThreatStatus
 from tap_api.v2.endpoints.siem.siem_data import SIEMData
 from tap_api.web import Resource, FilterOptions
@@ -26,12 +26,12 @@ class Blocked(Resource):
             options.add_option("sinceSeconds", time)
         elif isinstance(time, SinceTime):
             options.add_option("sinceTime", time)
-        elif isinstance(time, StartEndInterval):
-            options.add_option("sinceTime", time)
+        elif isinstance(time, TimeInterval):
+            options.add_option("interval", time)
         else:
             # Raise an error for unsupported types
             raise TypeError(
                 f"Unsupported type for time parameter: {type(time).__name__}. "
-                f"Expected one of: SinceSeconds, SinceTime, StartEndInterval."
+                f"Expected one of: SinceSeconds, SinceTime, TimeInterval."
             )
-        return SIEMData(self.session.get(self.uri, params=options.params))
+        return SIEMData(self._session.get(self._uri, params=options.params))
