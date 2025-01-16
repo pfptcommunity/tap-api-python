@@ -1,7 +1,159 @@
 import json
 from datetime import timedelta, datetime, timezone
-from tap_api.common import StartOffsetInterval, StartEndInterval, OffsetEndInterval, TimeWindow
+
+from tap_api.common import StartEndInterval, TimeWindow, SinceSeconds
 from tap_api.v2 import Client
+
+
+def print_siem_data_summary(siem_data):
+    """
+    Prints all properties and nested data from an SIEMData instance using its property accessors.
+
+    Args:
+        siem_data (SIEMData): The SIEMData object to be printed.
+    """
+    print("\nSIEM Data:")
+    print("HTTP Status:", siem_data.get_status())
+    print("HTTP Reason:", siem_data.get_reason())
+    print("Query End Time:", siem_data.query_end_time)
+
+    print("\nClicks Permitted:")
+    for click in siem_data.clicks_permitted:
+        print(f"  Campaign ID: {click.campaign_id}")
+        print(f"  Classification: {click.classification}")
+        print(f"  Click IP: {click.click_ip}")
+        print(f"  Click Time: {click.click_time}")
+        print(f"  GUID: {click.guid}")
+        print(f"  ID: {click.id}")
+        print(f"  Recipient: {click.recipient}")
+        print(f"  Sender: {click.sender}")
+        print(f"  Sender IP: {click.sender_ip}")
+        print(f"  Threat ID: {click.threat_id}")
+        print(f"  Threat Time: {click.threat_time}")
+        print(f"  Threat URL: {click.threat_url}")
+        print(f"  Threat Status: {click.threat_status}")
+        print(f"  URL: {click.url}")
+        print(f"  User Agent: {click.user_agent}")
+
+    print("\nClicks Blocked:")
+    for click in siem_data.clicks_blocked:
+        print(f"  Campaign ID: {click.campaign_id}")
+        print(f"  Classification: {click.classification}")
+        print(f"  Click IP: {click.click_ip}")
+        print(f"  Click Time: {click.click_time}")
+        print(f"  GUID: {click.guid}")
+        print(f"  ID: {click.id}")
+        print(f"  Recipient: {click.recipient}")
+        print(f"  Sender: {click.sender}")
+        print(f"  Sender IP: {click.sender_ip}")
+        print(f"  Threat ID: {click.threat_id}")
+        print(f"  Threat Time: {click.threat_time}")
+        print(f"  Threat URL: {click.threat_url}")
+        print(f"  Threat Status: {click.threat_status}")
+        print(f"  URL: {click.url}")
+        print(f"  User Agent: {click.user_agent}")
+
+    print("\nMessages Delivered:")
+    for message in siem_data.messages_delivered:
+        print(f"  Message ID: {message.message_id}")
+        print(f"  Subject: {message.subject}")
+        print(f"  From Address: {message.from_address}")
+        print(f"  Sender IP: {message.sender_ip}")
+        print(f"  Recipient: {message.recipient}")
+        print(f"  QID: {message.qid}")
+        print(f"  Phish Score: {message.phish_score}")
+        print(f"  Spam Score: {message.spam_score}")
+        print(f"  Impostor Score: {message.impostor_score}")
+        print(f"  Malware Score: {message.malware_score}")
+        print(f"  To Addresses: {message.to_addresses}")
+        print(f"  CC Addresses: {message.cc_addresses}")
+        print(f"  Cluster ID: {message.cluster_id}")
+        print(f"  Completely Rewritten: {message.completely_rewritten}")
+        print(f"  Threats Info Map:")
+        for threat in message.threats_info_map:
+            print(type(threat).__name__)
+            print(f"    Detection Type: {threat.detection_type}")
+            print(f"    Campaign ID: {threat.disposition}")
+            print(f"    Classification: {threat.filename}")
+            print(f"    Threat: {threat.threat}")
+            print(f"    Threat ID: {threat.threat_id}")
+            print(f"    Threat Status: {threat.threat_status}")
+            print(f"    Threat Time: {threat.threat_time}")
+            print(f"    Threat Type: {threat.threat_type}")
+            print(f"    Threat URL: {threat.threat_url}")
+            print(f"    Actors:")
+            for actor in threat.actors:
+                print(f"      Actor ID: {actor.id}")
+                print(f"      Actor Name: {actor.name}")
+                print(f"      Actor Name: {actor.type}")
+
+        print(f"  Quarantine Folder: {message.quarantine_folder}")
+        print(f"  Quarantine Rule: {message.quarantine_rule}")
+        print(f"  Header From: {message.header_from}")
+        print(f"  Header Reply-To: {message.header_reply_to}")
+        print(f"  Reply-To Address: {message.reply_to_address}")
+        print(f"  Modules Run: {message.modules_run}")
+        print(f"  Policy Routes: {message.policy_routes}")
+        print(f"  Message Parts:")
+        for mp in message.message_parts:
+            print(f"    Content Type: {mp.content_type}")
+            print(f"    Disposition: {mp.disposition}")
+            print(f"    Filename: {mp.filename}")
+            print(f"    MD5: {mp.md5}")
+            print(f"    Original Content Type: {mp.o_content_type}")
+            print(f"    Sandbox Status: {mp.sandbox_status}")
+            print(f"    SHA256: {mp.sha256}")
+
+    print("\nMessages Blocked:")
+    for message in siem_data.messages_blocked:
+        print(f"  Message ID: {message.message_id}")
+        print(f"  Subject: {message.subject}")
+        print(f"  From Address: {message.from_address}")
+        print(f"  Sender IP: {message.sender_ip}")
+        print(f"  Recipient: {message.recipient}")
+        print(f"  QID: {message.qid}")
+        print(f"  Phish Score: {message.phish_score}")
+        print(f"  Spam Score: {message.spam_score}")
+        print(f"  Impostor Score: {message.impostor_score}")
+        print(f"  Malware Score: {message.malware_score}")
+        print(f"  To Addresses: {message.to_addresses}")
+        print(f"  CC Addresses: {message.cc_addresses}")
+        print(f"  Cluster ID: {message.cluster_id}")
+        print(f"  Completely Rewritten: {message.completely_rewritten}")
+        print(f"  Threats Info Map:")
+        for threat in message.threats_info_map:
+            print(f"    Detection Type: {threat.detection_type}")
+            print(f"    Campaign ID: {threat.disposition}")
+            print(f"    Classification: {threat.filename}")
+            print(f"    Threat: {threat.threat}")
+            print(f"    Threat ID: {threat.threat_id}")
+            print(f"    Threat Status: {threat.threat_status}")
+            print(f"    Threat Time: {threat.threat_time}")
+            print(f"    Threat Type: {threat.threat_type}")
+            print(f"    Threat URL: {threat.threat_url}")
+            print(f"    Actors:")
+            for actor in threat.actors:
+                print(f"      Actor ID: {actor.id}")
+                print(f"      Actor Name: {actor.name}")
+                print(f"      Actor Name: {actor.type}")
+
+        print(f"  Quarantine Folder: {message.quarantine_folder}")
+        print(f"  Quarantine Rule: {message.quarantine_rule}")
+        print(f"  Header From: {message.header_from}")
+        print(f"  Header Reply-To: {message.header_reply_to}")
+        print(f"  Reply-To Address: {message.reply_to_address}")
+        print(f"  Modules Run: {message.modules_run}")
+        print(f"  Policy Routes: {message.policy_routes}")
+        print(f"  Message Parts:")
+        for mp in message.message_parts:
+            print(f"    Content Type: {mp.content_type}")
+            print(f"    Disposition: {mp.disposition}")
+            print(f"    Filename: {mp.filename}")
+            print(f"    MD5: {mp.md5}")
+            print(f"    Original Content Type: {mp.o_content_type}")
+            print(f"    Sandbox Status: {mp.sandbox_status}")
+            print(f"    SHA256: {mp.sha256}")
+
 
 if __name__ == "__main__":
     # Load API key
@@ -11,6 +163,21 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
+    print(client.siem.uri)
+    print(client.siem.clicks.uri)
+    print(client.siem.clicks.blocked.uri)
+    print(client.siem.clicks.permitted.uri)
+    print_siem_data_summary(client.siem.clicks.blocked(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.clicks.permitted(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.messages.blocked(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.messages.delivered(SinceSeconds(3600)))
+
+    print(client.siem.messages.uri)
+
+    print(client.siem.issues.uri)
+    print(client.siem.all.uri)
+
+    exit(0)
     # Retrieve campaign data
     campaign_data = client.campaign.ids(
         StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc))

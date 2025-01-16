@@ -21,4 +21,3 @@ class Clicks(Resource):
     @property
     def permitted(self) -> Permitted:
         return self.__permitted
-

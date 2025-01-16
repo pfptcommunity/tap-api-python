@@ -1,6 +1,6 @@
 # Proofpoint Targeted Attack Protection API Package
 
-Library implements all of the functions of the TAP API via Python, except SIEM API currently. 
+Library implements all of the functions of the TAP API via Python, except SIEM API currently.
 
 ### Requirements:
 
@@ -54,8 +54,8 @@ You should use install pipx or you can configure your own virtual environment an
 pipx install tap-api
 ```
 
-
 ### Creating an API client object
+
 ```python
 from tap_api.v2 import *
 
@@ -64,7 +64,9 @@ if __name__ == '__main__':
 ```
 
 ### Querying the Campaign API
-The Campaign API allows administrators to pull campaign IDs in a timeframe and specific details about campaigns, including:
+
+The Campaign API allows administrators to pull campaign IDs in a timeframe and specific details about campaigns,
+including:
 
 - their description;
 - the actor, malware family, and techniques associated with the campaign; and
@@ -81,7 +83,8 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
-    campaign_data = client.campaign.ids(StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
+    campaign_data = client.campaign.ids(
+        StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=1), datetime.now(timezone.utc)))
     print(campaign_data.get_status())
     print(campaign_data.get_reason())
     for info in campaign_data.campaigns:
@@ -89,6 +92,7 @@ if __name__ == '__main__':
         print(f"  ID: {info.id}")
         print(f"  Last Updated At: {info.last_updated_at}")
 ```
+
 #### Getting campaign details
 
 The sample below shows how to query detailed information for a given campaign.
@@ -98,9 +102,9 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
-    
+
     print(client.campaign["<campaign_id_here>"].uri)
-    
+
     campaign_summary = client.campaign["<campaign_id_here>"]()
 
     print("HTTP Status:", campaign_summary.get_status())
@@ -389,7 +393,7 @@ if __name__ == '__main__':
 
 ### Limitations
 
-Currently the SIEM API has not yet been implemented. 
+Currently the SIEM API has not yet been implemented.
 
 For more information please see: https://help.proofpoint.com/Threat_Insight_Dashboard/API_Documentation
 

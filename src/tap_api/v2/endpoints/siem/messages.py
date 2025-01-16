@@ -12,12 +12,12 @@ class Messages(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
         self.__blocked = Blocked(self, 'blocked')
-        self.__permitted = Delivered(self, 'delivered')
+        self.__delivered = Delivered(self, 'delivered')
 
     @property
     def blocked(self) -> Blocked:
         return self.__blocked
 
     @property
-    def permitted(self) -> Delivered:
-        return self.__permitted
+    def delivered(self) -> Delivered:
+        return self.__delivered

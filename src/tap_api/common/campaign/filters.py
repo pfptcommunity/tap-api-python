@@ -3,7 +3,7 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-from abc import ABC, abstractmethod
+from abc import ABC
 from datetime import datetime, timedelta
 
 from tap_api.web.parameter import Parameter
@@ -37,6 +37,7 @@ class TimeInterval(TimeParameter, ABC):
     """
     Abstract base class for different types of time intervals.
     """
+
     def __init__(self):
         pass
 
@@ -99,6 +100,7 @@ class SinceTime(TimeParameter):
     Example:
     2020-05-01T12:00:00Z - A specific UTC time.
     """
+
     def __init__(self, dt: datetime):
         self.__dt = dt
 
@@ -113,6 +115,7 @@ class SinceSeconds(TimeParameter):
     Example:
     3600 - Represents 1 hour since a reference point.
     """
+
     def __init__(self, seconds: int):
         self.__seconds = seconds
 
