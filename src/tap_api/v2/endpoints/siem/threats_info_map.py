@@ -8,9 +8,9 @@ from typing import Dict, List
 from tap_api.v2.endpoints.siem.actor import Actor
 
 
-class MessageParts(Dict):
+class ThreatsInfoMap(Dict):
     @property
-    def content_type(self) -> str:
+    def detection_type(self) -> str:
         return self.get("detectionType", "")
 
     @property
@@ -45,5 +45,6 @@ class MessageParts(Dict):
     def threat_url(self) -> str:
         return self.get("threatUrl", "")
 
+    @property
     def actors(self) -> List[Actor]:
         return [Actor(a) for a in self.get("actors", [])]
