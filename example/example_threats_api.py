@@ -10,6 +10,11 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
+    # URI Modeling
+    print(client.threat._uri)
+    print(client.threat.summary._uri)
+    print(client.threat.summary["<threat_id_here>"]._uri)
+
     # Retrieve threat summary
     threat_summary = client.threat.summary["f350d6ad78e52acde166d43e6b97baaf7944f966b4fd6cc4af96ae5b7a8c121c"]()
 

@@ -10,7 +10,13 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
-    # Fetch forensic data
+    # URI Modeling
+    print(client.forensics._uri)
+
+
+    # Fetch forensic data. Note, client.forensics.campaign is not an object, the nature of the API made it simpler
+    # to just have a function called campaign() and threat() accepting the correct arguments. This may change in the
+    # future with backward compatability
     aggregate_data = client.forensics.campaign("4a3df8c3-0055-4bc4-a150-73e81436871d")
     print("\nForensic Data:")
     print("HTTP Status:", aggregate_data.get_status())

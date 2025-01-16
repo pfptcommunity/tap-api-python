@@ -12,6 +12,11 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
+    # URI Modeling
+    print(client.campaign._uri)
+    print(client.campaign.ids._uri)
+    print(client.campaign["<campaign_id_hera>"]._uri)
+
     # Retrieve campaign data
     campaign_data = client.campaign.ids(
         StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc))

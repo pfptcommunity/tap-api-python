@@ -11,6 +11,10 @@ if __name__ == "__main__":
 
     client = Client(api_key.get("PRINCIPAL"), api_key.get("SECRET"))
 
+    # URI Modeling
+    print(client.people._uri)
+    print(client.people.vap._uri)
+
     # Dump VAP info
     vap_info = client.people.vap(TimeWindow.DAYS_90)
     print("\nVAP Info:")
