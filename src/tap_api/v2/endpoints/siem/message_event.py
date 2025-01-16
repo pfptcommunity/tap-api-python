@@ -6,6 +6,7 @@ License: MIT
 from typing import Dict, List
 
 from tap_api.v2.endpoints.siem.message_parts import MessageParts
+from tap_api.v2.endpoints.siem.threats_info_map import ThreatsInfoMap
 
 
 class MessageEvent(Dict):
@@ -106,8 +107,8 @@ class MessageEvent(Dict):
         return self.get("subject", "")
 
     @property
-    def threats_info_map(self) -> List[Dict]:
-        return self.get("threatsInfoMap", [])
+    def threats_info_map(self) -> List[ThreatsInfoMap]:
+        return [ThreatsInfoMap(tim) for tim in self.get("threatsInfoMap", [])]
 
     @property
     def to_addresses(self) -> List[str]:
