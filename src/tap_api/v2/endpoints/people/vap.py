@@ -11,7 +11,6 @@ from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 from .vap_summary import VapSummary
 
-logger = logging.getLogger(__name__)
 
 
 class Vap(Resource):
@@ -32,5 +31,4 @@ class Vap(Resource):
         options.add_option("page", page)
         options.add_option("size", size)
 
-        logger.debug(f"Query parameters: {options.params}")
         return VapSummary(self.session.get(self.uri, params=options.params))
