@@ -25,7 +25,7 @@ class Ids(Resource):
             raise ValueError("`size` must be 1 or greater.")
 
         options = FilterOptions()
-        options.add_option("interval", interval.to_interval())
+        options.add_option("interval", interval)
         options.add_option("page", page)
         options.add_option("size", size)
         return CampaignMetadata(self.session.get(self.uri, params=options.params))

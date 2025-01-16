@@ -6,6 +6,7 @@ License: MIT
 from datetime import datetime
 from enum import Enum
 from typing import TypeVar, Dict, Any
+from .parameter import Parameter
 
 
 class FilterOptions:
@@ -34,7 +35,7 @@ class FilterOptions:
         if value is None:
             return
 
-        if not isinstance(value, (str, list, datetime, Enum, int, float, bool)):
+        if not isinstance(value, (str, list, datetime, Enum, int, float, bool, Parameter)):
             raise TypeError(f"Unsupported type for option value: {type(value).__name__}")
         self._options[key] = value
 
@@ -49,7 +50,9 @@ class FilterOptions:
         Returns:
             str: The formatted value as a string.
         """
-        if isinstance(value, list) and value:
+        if isinstance(value, Parameter):
+            return f"{key}={str(value)}"
+        elif isinstance(value, list) and value:
             if all(isinstance(n, str) for n in value):
                 return f"{key}=[{','.join(value)}]"
             elif all(isinstance(n, Enum) for n in value):
@@ -82,7 +85,9 @@ class FilterOptions:
         """
         result = {}
         for k, v in self._options.items():
-            if isinstance(v, list) and v:
+            if isinstance(v, Parameter):
+                result[k] = str(v)
+            elif isinstance(v, list) and v:
                 if all(isinstance(n, str) for n in v):
                     result[k] = f"[{','.join(v)}]"
                 elif all(isinstance(n, Enum) for n in v):
