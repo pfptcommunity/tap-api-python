@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class Parameter(ABC):
     @abstractmethod
     def __str__(self) -> str:
