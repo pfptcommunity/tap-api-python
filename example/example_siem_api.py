@@ -1,7 +1,6 @@
 import json
-from datetime import timedelta, datetime, timezone
 
-from tap_api.common import StartEndInterval, SinceSeconds, SinceTime
+from tap_api.common import SinceSeconds
 from tap_api.v2 import Client
 
 
@@ -133,4 +132,3 @@ if __name__ == "__main__":
     print_siem_data_summary(client.siem.messages.delivered(SinceSeconds(3600)))
     print_siem_data_summary(client.siem.issues(SinceSeconds(3600)))
     print_siem_data_summary(client.siem.all(SinceSeconds(3600)))
-
