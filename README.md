@@ -1,6 +1,6 @@
 # Proofpoint Targeted Attack Protection API Package
 
-Library implements all of the functions of the TAP API via Python, except SIEM API currently.
+Library implements all of the functions of the TAP API via Python
 
 ### Requirements:
 
@@ -103,17 +103,36 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 
-    print(client.campaign["<campaign_id_here>"]._uri)
+    # URI Modeling
+    print(client.campaign._uri)
+    print(client.campaign.ids._uri)
+    print(client.campaign["<campaign_id_hera>"]._uri)
 
-    campaign_summary = client.campaign["<campaign_id_here>"]()
+    # Retrieve campaign data
+    campaign_data = client.campaign.ids(
+        StartEndInterval(datetime.now(timezone.utc) - timedelta(hours=24), datetime.now(timezone.utc))
+    )
 
+    print("Campaign Data Status:", campaign_data.get_status())
+    print("Reason:", campaign_data.get_reason())
+
+    for info in campaign_data.campaigns:
+        print("\nCampaigns:")
+        print(f"  ID: {info.id}")
+        print(f"  Last Updated At: {info.last_updated_at}")
+
+    # Fetch campaign summary
+    campaign_summary = client.campaign["<campaign_id_hera>"]()
+    print("\nCampaign Summary:")
     print("HTTP Status:", campaign_summary.get_status())
     print("HTTP Reason:", campaign_summary.get_reason())
+
     print("\nCampaign:")
     print(f"  ID: {campaign_summary.id}")
     print(f"  Name: {campaign_summary.name}")
     print(f"  Description: {campaign_summary.description}")
     print(f"  Start Date: {campaign_summary.start_date}")
+
     for campaign_member in campaign_summary.campaign_members:
         print("\n  Campaign Member:")
         print(f"    ID: {campaign_member.id}")
@@ -133,7 +152,7 @@ if __name__ == '__main__':
         print(f"    Name: {malware.name}")
 
     for technique in campaign_summary.techniques:
-        print("\n  Malware:")
+        print("\n  Technique:")
         print(f"    ID: {technique.id}")
         print(f"    Name: {technique.name}")
 
@@ -157,9 +176,15 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
-    print(client.siem._uri)
+
+    # URI Modeling
     print(client.forensics._uri)
+
+    # Fetch threat data. Note, client.forensics.campaign is not an object, the nature of the API made it simpler
+    # to just have a function called campaign() and threat() accepting the correct arguments. This may change in the
+    # future with backward compatability
     aggregate_data = client.forensics.threat("<threat_id_here>")
+
     print("HTTP Status:", aggregate_data.get_status())
     print("HTTP Reason:", aggregate_data.get_reason())
     for report in aggregate_data.reports:
@@ -194,13 +219,25 @@ if __name__ == '__main__':
 #### Getting data for forensics for campaigns
 
 ```python
+import json
+
 from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
+
+    # URI Modeling
+    print(client.forensics._uri)
+
+    # Fetch forensic data. Note, client.forensics.campaign is not an object, the nature of the API made it simpler
+    # to just have a function called campaign() and threat() accepting the correct arguments. This may change in the
+    # future with backward compatability
     aggregate_data = client.forensics.campaign("<campaign_id_here>")
+
+    print("\nForensic Data:")
     print("HTTP Status:", aggregate_data.get_status())
     print("HTTP Reason:", aggregate_data.get_reason())
+
     for report in aggregate_data.reports:
         print("\nReport:")
         print(f"  Scope: {report.scope}")
@@ -217,11 +254,10 @@ if __name__ == '__main__':
             print(f"    Time: {forensic.time}")
             print(f"    Note: {forensic.note or 'N/A'}")
 
-            # Dump the `what` object. Note helper properties exist, but you must know the object type or type.
-            print("    What {}:".format(type(forensic.what).__name__))
+            # Dump the `what` object
+            print("    What ({}):".format(type(forensic.what).__name__))
             print(json.dumps(forensic.what, indent=4))
 
-            # Dump platforms if available
             if forensic.platforms:
                 print("    Platforms:")
                 for platform in forensic.platforms:
@@ -238,10 +274,15 @@ from tap_api.v2 import Client
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 
-    # Returns a threat summary dictionary
+    # URI Modeling
+    print(client.threat._uri)
+    print(client.threat.summary._uri)
+    print(client.threat.summary["<threat_id_here>"]._uri)
+
+    # Retrieve threat summary
     threat_summary = client.threat.summary["<threat_id_here>"]()
 
-    # Dictionary object also has data associated with the HTTP response.
+    print("\nThreat Summary:")
     print("HTTP Status:", threat_summary.get_status())
     print("HTTP Reason:", threat_summary.get_reason())
 
@@ -283,6 +324,7 @@ if __name__ == '__main__':
     for brand in threat_summary.brands:
         print(f"    ID: {brand.id}")
         print(f"    Name: {brand.name}")
+
 ```
 
 ### Querying the People API
@@ -295,8 +337,14 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
-    vap_info = client.people.vap()
 
+    # URI Modeling
+    print(client.people._uri)
+    print(client.people.vap._uri)
+
+    # Dump VAP info
+    vap_info = client.people.vap(TimeWindow.DAYS_90)
+    print("\nVAP Info:")
     print("HTTP Status:", vap_info.get_status())
     print("HTTP Reason:", vap_info.get_reason())
     print("Total VAPs:", vap_info.total_vap_users)
@@ -323,6 +371,142 @@ if __name__ == '__main__':
             print(f"    - {family.name}: {family.score}")
 ```
 
+### Querying the SIEM API
+
+Security Information and Event Management (SIEM) solutions are used by many organizations to identify and correlate
+various security events occurring in their point products. Examples of SIEM products include HP's ArcSight, IBM's
+QRadar, and Splunk.
+
+```python
+from tap_api.common import SinceSeconds
+from tap_api.v2 import Client
+
+
+def print_click_data(clicks):
+    for click in clicks:
+        print(f"  Campaign ID: {click.campaign_id}")
+        print(f"  Classification: {click.classification}")
+        print(f"  Click IP: {click.click_ip}")
+        print(f"  Click Time: {click.click_time}")
+        print(f"  GUID: {click.guid}")
+        print(f"  ID: {click.id}")
+        print(f"  Recipient: {click.recipient}")
+        print(f"  Sender: {click.sender}")
+        print(f"  Sender IP: {click.sender_ip}")
+        print(f"  Threat ID: {click.threat_id}")
+        print(f"  Threat Time: {click.threat_time}")
+        print(f"  Threat URL: {click.threat_url}")
+        print(f"  Threat Status: {click.threat_status}")
+        print(f"  URL: {click.url}")
+        print(f"  User Agent: {click.user_agent}")
+
+
+def print_actors_data(actors):
+    for actor in actors:
+        print(f"      Actor ID: {actor.id}")
+        print(f"      Actor Name: {actor.name}")
+        print(f"      Actor Name: {actor.type}")
+
+
+def print_threat_info_map_data(threat_info_map):
+    for threat in threat_info_map:
+        print(f"    Detection Type: {threat.detection_type}")
+        print(f"    Campaign ID: {threat.disposition}")
+        print(f"    Classification: {threat.filename}")
+        print(f"    Threat: {threat.threat}")
+        print(f"    Threat ID: {threat.threat_id}")
+        print(f"    Threat Status: {threat.threat_status}")
+        print(f"    Threat Time: {threat.threat_time}")
+        print(f"    Threat Type: {threat.threat_type}")
+        print(f"    Threat URL: {threat.threat_url}")
+        print(f"    Actors:")
+
+
+def print_message_parts_data(message_parts):
+    for mp in message_parts:
+        print(f"    Content Type: {mp.content_type}")
+        print(f"    Disposition: {mp.disposition}")
+        print(f"    Filename: {mp.filename}")
+        print(f"    MD5: {mp.md5}")
+        print(f"    Original Content Type: {mp.o_content_type}")
+        print(f"    Sandbox Status: {mp.sandbox_status}")
+        print(f"    SHA256: {mp.sha256}")
+
+
+def print_message_data(messages):
+    for message in messages:
+        print(f"  Message ID: {message.message_id}")
+        print(f"  Subject: {message.subject}")
+        print(f"  From Address: {message.from_address}")
+        print(f"  Sender IP: {message.sender_ip}")
+        print(f"  Recipient: {message.recipient}")
+        print(f"  QID: {message.qid}")
+        print(f"  Phish Score: {message.phish_score}")
+        print(f"  Spam Score: {message.spam_score}")
+        print(f"  Impostor Score: {message.impostor_score}")
+        print(f"  Malware Score: {message.malware_score}")
+        print(f"  To Addresses: {message.to_addresses}")
+        print(f"  CC Addresses: {message.cc_addresses}")
+        print(f"  Cluster ID: {message.cluster_id}")
+        print(f"  Completely Rewritten: {message.completely_rewritten}")
+        print(f"  Threats Info Map:")
+        print_threat_info_map_data(message.threats_info_map)
+        print(f"  Quarantine Folder: {message.quarantine_folder}")
+        print(f"  Quarantine Rule: {message.quarantine_rule}")
+        print(f"  Header From: {message.header_from}")
+        print(f"  Header Reply-To: {message.header_reply_to}")
+        print(f"  Reply-To Address: {message.reply_to_address}")
+        print(f"  Modules Run: {message.modules_run}")
+        print(f"  Policy Routes: {message.policy_routes}")
+        print(f"  Message Parts:")
+        print_message_parts_data(message.message_parts)
+
+
+def print_siem_data_summary(siem_data):
+    """
+    Prints all properties and nested data from an SIEMData instance using its property accessors.
+
+    Args:
+        siem_data (SIEMData): The SIEMData object to be printed.
+    """
+    print("\nSIEM Data:")
+    print("HTTP Status:", siem_data.get_status())
+    print("HTTP Reason:", siem_data.get_reason())
+    print("Query End Time:", siem_data.query_end_time)
+
+    print("\nClicks Permitted:")
+    print_click_data(siem_data.clicks_permitted)
+    print("\nClicks Blocked:")
+    print_click_data(siem_data.clicks_blocked)
+    print("\nMessages Delivered:")
+    print_message_data(siem_data.messages_delivered)
+    print("\nMessages Blocked:")
+    print_message_data(siem_data.messages_blocked)
+
+
+if __name__ == "__main__":
+    client = Client("<principal>", "<secret>")
+
+    # URI Modeling
+    print(client.siem._uri)
+    print(client.siem.clicks._uri)
+    print(client.siem.clicks.blocked._uri)
+    print(client.siem.clicks.permitted._uri)
+    print(client.siem.messages._uri)
+    print(client.siem.messages.blocked._uri)
+    print(client.siem.messages.delivered._uri)
+    print(client.siem.issues._uri)
+    print(client.siem.all._uri)
+
+    # Dump the data for all endpoints, TimeRange is handled by SinceSeconds, SinceDateTime, StartEndInterval
+    print_siem_data_summary(client.siem.clicks.blocked(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.clicks.permitted(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.messages.blocked(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.messages.delivered(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.issues(SinceSeconds(3600)))
+    print_siem_data_summary(client.siem.all(SinceSeconds(3600)))
+```
+
 ### Querying the URL Decoder API
 
 The URL Decoder API allows users to decode URLs which have been rewritten by TAP to their original, target URL.
@@ -332,16 +516,23 @@ from tap_api.v2 import Client
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
+
+    # URI Modeling
+    print(client.url._uri)
+    print(client.url.decode._uri)
+
+    # Decode URL
     decoded_urls = client.url.decode([
         "https://urldefense.proofpoint.com/v2/url?u=http-3A__links.mkt3337.com_ctt-3Fkn-3D3-26ms-3DMzQ3OTg3MDQS1-26r-3DMzkxNzk3NDkwMDA0S0-26b-3D0-26j-3DMTMwMjA1ODYzNQS2-26mt-3D1-26rt-3D0&d=DwMFaQ&c=Vxt5e0Osvvt2gflwSlsJ5DmPGcPvTRKLJyp031rXjhg&r=MujLDFBJstxoxZI_GKbsW7wxGM7nnIK__qZvVy6j9Wc&m=QJGhloAyfD0UZ6n8r6y9dF-khNKqvRAIWDRU_K65xPI&s=ew-rOtBFjiX1Hgv71XQJ5BEgl9TPaoWRm_Xp9Nuo8bk&e=",
         "https://urldefense.proofpoint.com/v1/url?u=http://www.bouncycastle.org/&amp;k=oIvRg1%2BdGAgOoM1BIlLLqw%3D%3D%0A&amp;r=IKM5u8%2B%2F%2Fi8EBhWOS%2BqGbTqCC%2BrMqWI%2FVfEAEsQO%2F0Y%3D%0A&amp;m=Ww6iaHO73mDQpPQwOwfLfN8WMapqHyvtu8jM8SjqmVQ%3D%0A&amp;s=d3583cfa53dade97025bc6274c6c8951dc29fe0f38830cf8e5a447723b9f1c9a",
         "https://urldefense.com/v3/__https://google.com:443/search?q=a*test&gs=ps__;Kw!-612Flbf0JvQ3kNJkRi5Jg!Ue6tQudNKaShHg93trcdjqDP8se2ySE65jyCIe2K1D_uNjZ1Lnf6YLQERujngZv9UWf66ujQIQ$"
     ])
 
-    # DictionaryCollection object also has data associated with the HTTP response.
+    print("\nDecoded URLs:")
     print("HTTP Status:", decoded_urls.get_status())
     print("HTTP Reason:", decoded_urls.get_reason())
     print("Response Data:", json.dumps(decoded_urls, indent=4))
+
     for url_info in decoded_urls.urls():
         print("\nDecoded URL Info:")
         print(f"  Encoded URL: {url_info.encoded_url}")
@@ -351,6 +542,7 @@ if __name__ == '__main__':
         print(f"  Recipient Email: {url_info.recipient_email}")
         print(f"  Success: {url_info.success}")
         print(f"  Error: {url_info.error or 'N/A'}")
+
 ```
 
 ### Proxy Support
@@ -393,7 +585,7 @@ if __name__ == '__main__':
 
 ### Limitations
 
-Currently the SIEM API has not yet been implemented.
+TAP SIEM API only supports JSON, CEF is not currently a supported format.
 
 For more information please see: https://help.proofpoint.com/Threat_Insight_Dashboard/API_Documentation
 
