@@ -3,14 +3,12 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
-import logging
 from typing import Optional
 
 from tap_api.common.people.filters import TimeWindow
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 from .vap_summary import VapSummary
-
 
 
 class Vap(Resource):
