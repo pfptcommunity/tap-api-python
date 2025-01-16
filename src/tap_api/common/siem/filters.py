@@ -6,18 +6,13 @@ License: MIT
 from enum import Enum
 
 
-class SiemFormat(Enum):
-    SYSLOG = 'syslog'
-    JSON = 'json'
-
-
-class SiemThreatType(Enum):
+class ThreatType(Enum):
     URL = 'url'
     ATTACHMENT = 'attachment'
     MESSAGE_TEXT = 'messageText'
 
 
-class SiemThreatStatus(Enum):
+class ThreatStatus(Enum):
     ACTIVE = 'active'
     CLEARED = 'cleared'
     FALSE_POSITIVE = 'falsePositive'

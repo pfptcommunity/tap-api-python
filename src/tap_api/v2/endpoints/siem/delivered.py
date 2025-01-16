@@ -3,7 +3,10 @@ Author: Ludvik Jerabek
 Package: tap_api
 License: MIT
 """
+from typing import Optional
+
 from tap_api.common.campaign.filters import TimeParameter, SinceSeconds, SinceTime, StartEndInterval
+from tap_api.common.siem.filters import ThreatStatus, ThreatType
 from tap_api.v2.endpoints.siem.siem_data import SIEMData
 from tap_api.web import Resource, FilterOptions
 
@@ -12,9 +15,12 @@ class Delivered(Resource):
     def __init__(self, parent, uri: str):
         super().__init__(parent, uri)
 
-    def __call__(self, time: TimeParameter) -> SIEMData:
+    def __call__(self, time: TimeParameter, threat_type: Optional[ThreatType] = None,
+                 threat_status: Optional[ThreatStatus] = None) -> SIEMData:
         options = FilterOptions()
         options.add_option("format", "json")
+        options.add_option("threatType", threat_type)
+        options.add_option("threatStatus", threat_status)
 
         if isinstance(time, SinceSeconds):
             options.add_option("sinceSeconds", time)
