@@ -1,5 +1,5 @@
 # Proofpoint Targeted Attack Protection API Package
-
+[![PyPI Downloads](https://static.pepy.tech/badge/tap-api)](https://pepy.tech/projects/tap-api)  
 Library implements all of the functions of the TAP API via Python
 
 ### Requirements:
