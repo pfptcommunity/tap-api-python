@@ -1,8 +1,6 @@
 """
-This code was tested against Python 3.9
- 
 Author: Ludvik Jerabek
-Package: tap_api
+Package: tap-api
 License: MIT
 """
 from requests.adapters import HTTPAdapter

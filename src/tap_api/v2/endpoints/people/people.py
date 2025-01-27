@@ -1,6 +1,6 @@
 """
 Author: Ludvik Jerabek
-Package: tap_api
+Package: tap-api
 License: MIT
 """
 from tap_api.web import Resource

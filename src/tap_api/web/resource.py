@@ -1,6 +1,6 @@
 """
 Author: Ludvik Jerabek
-Package: tap_api
+Package: tap-api
 License: MIT
 """
 from __future__ import annotations
@@ -29,11 +29,14 @@ class Resource:
             parent (Resource | None): The parent resource.
             uri (str): The name/URI segment for this resource.
         """
+        if not isinstance(uri, str):
+            raise TypeError(f"Expected 'uri' to be a string, got {type(uri).__name__}")
+
         self.__parent = parent
         self.__name = uri
 
     @property
-    def name(self) -> str:
+    def _name(self) -> str:
         """Gets the name of the resource."""
         return self.__name
 
@@ -53,7 +56,7 @@ class Resource:
             if id(parent) in visited:
                 raise ValueError("Cyclic parent reference detected.")
             visited.add(id(parent))
-            uri = join(parent.name, uri)
+            uri = join(parent._name, uri)
             parent = parent.__parent
         return uri
 

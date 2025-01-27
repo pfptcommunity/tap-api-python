@@ -1,6 +1,6 @@
 """
 Author: Ludvik Jerabek
-Package: tap_api
+Package: tap-api
 License: MIT
 """
 from tap_api.v2.endpoints.url.decode import Decode
