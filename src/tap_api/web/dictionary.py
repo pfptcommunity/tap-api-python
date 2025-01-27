@@ -5,9 +5,8 @@ License: MIT
 """
 from __future__ import annotations
 
-from typing import Dict, TypeVar, Optional, Callable
-
 from requests import Response
+from typing import Dict, TypeVar, Optional, Callable
 
 from .response_wrapper import ResponseWrapper
 

@@ -3,9 +3,8 @@ Author: Ludvik Jerabek
 Package: tap-api
 License: MIT
 """
-from typing import List
-
 from requests import Response
+from typing import List
 
 from tap_api.v2.endpoints.siem.click_event import ClickEvent
 from tap_api.v2.endpoints.siem.message_event import MessageEvent

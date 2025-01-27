@@ -4,9 +4,8 @@ Package: tap-api
 License: MIT
 """
 import logging
-from typing import Any
-
 from requests import Response
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
