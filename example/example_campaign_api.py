@@ -15,7 +15,7 @@ if __name__ == "__main__":
     # URI Modeling
     print(client.campaign._uri)
     print(client.campaign.ids._uri)
-    print(client.campaign["<campaign_id_hera>"]._uri)
+    print(client.campaign["<campaign_id_here>"]._uri)
 
     # Retrieve campaign data
     campaign_data = client.campaign.ids(
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         print(f"  Last Updated At: {info.last_updated_at}")
 
     # Fetch campaign summary
-    campaign_summary = client.campaign["a4363a95-4ae5-4b02-80b8-879980acc041"]()
+    campaign_summary = client.campaign["<campaign_id_here>"]()
     print("\nCampaign Summary:")
     print("HTTP Status:", campaign_summary.get_status())
     print("HTTP Reason:", campaign_summary.get_reason())

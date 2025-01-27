@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # Fetch forensic data. Note, client.forensics.campaign is not an object, the nature of the API made it simpler
     # to just have a function called campaign() and threat() accepting the correct arguments. This may change in the
     # future with backward compatability
-    aggregate_data = client.forensics.campaign("4a3df8c3-0055-4bc4-a150-73e81436871d")
+    aggregate_data = client.forensics.campaign("<campaign_id_here>")
     print("\nForensic Data:")
     print("HTTP Status:", aggregate_data.get_status())
     print("HTTP Reason:", aggregate_data.get_reason())

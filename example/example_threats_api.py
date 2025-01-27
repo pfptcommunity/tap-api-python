@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print(client.threat.summary["<threat_id_here>"]._uri)
 
     # Retrieve threat summary
-    threat_summary = client.threat.summary["f350d6ad78e52acde166d43e6b97baaf7944f966b4fd6cc4af96ae5b7a8c121c"]()
+    threat_summary = client.threat.summary["<threat_id_here>"]()
 
     print("\nThreat Summary:")
     print("HTTP Status:", threat_summary.get_status())
