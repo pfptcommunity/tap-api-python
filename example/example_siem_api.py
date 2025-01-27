@@ -1,7 +1,6 @@
 import json
 
-from tap_api.common import SinceSeconds
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 
 def print_click_data(clicks):

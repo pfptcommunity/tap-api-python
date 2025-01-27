@@ -1,4 +1,5 @@
-from .campaign.filters import StartEndInterval, StartOffsetInterval, OffsetEndInterval, SinceTime, SinceSeconds
-from .people.filters import TimeWindow
+from .filters import StartEndInterval, StartOffsetInterval, OffsetEndInterval, SinceTime, SinceSeconds, TimeWindow, \
+    ThreatType, ThreatStatus
 
-__all__ = [StartEndInterval, StartOffsetInterval, OffsetEndInterval, TimeWindow, SinceTime, SinceSeconds]
+__all__ = ['StartEndInterval', 'StartOffsetInterval', 'OffsetEndInterval', 'SinceTime', 'SinceSeconds', 'TimeWindow',
+           'ThreatType', 'ThreatStatus']

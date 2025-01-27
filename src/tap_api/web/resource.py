@@ -6,8 +6,9 @@ License: MIT
 from __future__ import annotations
 
 from posixpath import join
-from requests import Session
 from typing import Union, TypeVar
+
+from requests import Session
 
 
 class Resource:

@@ -3,11 +3,9 @@ Author: Ludvik Jerabek
 Package: tap-api
 License: MIT
 """
-import logging
-from requests import Response
 from typing import Any
 
-logger = logging.getLogger(__name__)
+from requests import Response
 
 ERROR_MESSAGES = {
     400: "The request is missing a mandatory request parameter, a parameter contains data which is incorrectly formatted, or the API doesn't have enough information to determine the identity of the customer.",
@@ -55,7 +53,6 @@ class ErrorHandler:
         """
         if response.status_code in ERROR_MESSAGES:
             response.reason = ERROR_MESSAGES[response.status_code]
-            logger.error(f"HTTP {response.status_code}: {response.reason}")
 
         if self.__raise_for_status:
             response.raise_for_status()

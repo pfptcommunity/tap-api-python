@@ -1,6 +1,6 @@
 import json
 
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == "__main__":
     # Load API key

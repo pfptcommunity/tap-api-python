@@ -4,8 +4,9 @@ Package: tap-api
 License: MIT
 """
 from datetime import datetime
-from requests import Response
 from typing import List
+
+from requests import Response
 
 from tap_api.web import Dictionary
 from .actor import Actor

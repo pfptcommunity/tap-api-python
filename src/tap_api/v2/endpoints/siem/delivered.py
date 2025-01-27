@@ -5,8 +5,7 @@ License: MIT
 """
 from typing import Optional
 
-from tap_api.common.campaign.filters import TimeParameter, SinceSeconds, SinceTime, TimeInterval
-from tap_api.common.siem.filters import ThreatStatus, ThreatType
+from tap_api.common.filters import TimeParameter, SinceSeconds, SinceTime, TimeInterval, ThreatStatus, ThreatType
 from tap_api.v2.endpoints.siem.siem_data import SIEMData
 from tap_api.web import Resource, FilterOptions
 

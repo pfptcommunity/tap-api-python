@@ -5,7 +5,7 @@ License: MIT
 """
 from typing import Optional
 
-from tap_api.common.people.filters import TimeWindow
+from tap_api.common.filters import TimeWindow
 from tap_api.web import FilterOptions
 from tap_api.web.resource import Resource
 from .vap_summary import VapSummary

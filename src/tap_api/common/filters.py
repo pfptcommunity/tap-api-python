@@ -5,6 +5,7 @@ License: MIT
 """
 from abc import ABC
 from datetime import datetime, timedelta
+from enum import Enum
 
 from tap_api.web.parameter import Parameter
 
@@ -121,3 +122,21 @@ class SinceSeconds(TimeParameter):
 
     def __str__(self) -> str:
         return str(self.__seconds)
+
+
+class TimeWindow(Enum):
+    DAYS_14 = 14
+    DAYS_30 = 30
+    DAYS_90 = 90
+
+
+class ThreatType(Enum):
+    URL = 'url'
+    ATTACHMENT = 'attachment'
+    MESSAGE_TEXT = 'messageText'
+
+
+class ThreatStatus(Enum):
+    ACTIVE = 'active'
+    CLEARED = 'cleared'
+    FALSE_POSITIVE = 'falsePositive'
