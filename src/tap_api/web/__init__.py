@@ -5,5 +5,4 @@ from .filter_options import TFilterOptions
 from .resource import Resource
 from .resources import Resources
 
-__all__ = ['DictionaryResource', 'Resource', 'Resources',
-           'Dictionary', 'FilterOptions', 'TFilterOptions']
+__all__ = ['DictionaryResource', 'Resource', 'Resources', 'Dictionary', 'FilterOptions', 'TFilterOptions']

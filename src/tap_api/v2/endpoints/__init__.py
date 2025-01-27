@@ -4,11 +4,11 @@ Package: tap-api
 License: MIT
 """
 
-from tap_api.v2.endpoints.campaign.campaign import Campaign
-from tap_api.v2.endpoints.forensics.forensics import Forensics
-from tap_api.v2.endpoints.people.people import People
-from tap_api.v2.endpoints.siem.siem import Siem
-from tap_api.v2.endpoints.threats.threat import Threat
-from tap_api.v2.endpoints.url.url import Url
+from .campaign.campaign import Campaign
+from .forensics.forensics import Forensics
+from .people.people import People
+from .siem.siem import Siem
+from .threats.threat import Threat
+from .url.url import Url
 
 __all__ = ['Campaign', 'Forensics', 'People', 'Threat', 'Siem', 'Url']
