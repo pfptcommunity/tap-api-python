@@ -63,6 +63,12 @@ if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
 ```
 
+### Type Hinting and Auto-Completion
+
+Auto-completion and type hints are provided when using an IDE like PyCharm.
+
+All results are dictionaries with helper properties to prevent the need to identify the key values associated. Since the results are dictionaries, it's possible to access values that are not mapped to helper properties. This is useful if new JSON properties are returned but have not yet been mapped to helper properties. 
+
 ### Querying the Campaign API
 
 The Campaign API allows administrators to pull campaign IDs in a timeframe and specific details about campaigns,
