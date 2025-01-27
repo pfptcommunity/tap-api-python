@@ -84,8 +84,7 @@ Used to fetch a list of IDs of campaigns active in a time window sorted by the l
 
 ```python
 from datetime import timedelta, datetime, timezone
-from tap_api.common import StartOffsetInterval, StartEndInterval, OffsetEndInterval, TimeWindow
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -104,7 +103,7 @@ if __name__ == '__main__':
 The sample below shows how to query detailed information for a given campaign.
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -178,7 +177,7 @@ security endpoints to prevent exposure and infection.
 #### Getting data for forensics for threats
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -227,7 +226,7 @@ if __name__ == '__main__':
 ```python
 import json
 
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -275,7 +274,7 @@ if __name__ == '__main__':
 ### Querying the Threats API
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -339,7 +338,7 @@ The People API allows administrators to identify which users in their organizati
 clickers during a specified period.
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -384,8 +383,7 @@ various security events occurring in their point products. Examples of SIEM prod
 QRadar, and Splunk.
 
 ```python
-from tap_api.common import SinceSeconds
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 
 def print_click_data(clicks):
@@ -518,7 +516,7 @@ if __name__ == "__main__":
 The URL Decoder API allows users to decode URLs which have been rewritten by TAP to their original, target URL.
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -556,7 +554,7 @@ if __name__ == '__main__':
 Socks5 Proxy Example:
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -567,7 +565,7 @@ if __name__ == '__main__':
 HTTP Proxy Example (Squid):
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
@@ -579,7 +577,7 @@ if __name__ == '__main__':
 ### HTTP Timeout Settings
 
 ```python
-from tap_api.v2 import Client
+from tap_api.v2 import *
 
 if __name__ == '__main__':
     client = Client("<principal>", "<secret>")
